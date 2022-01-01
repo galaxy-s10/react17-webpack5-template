@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "esnext"],
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+    // "paths": {
+    //   "@/*": ["./src/*"] //这样写的话，@/不会提示路径，得使用baseUrl:'./'+paths:{"@/*": ["src/*"]}这样才的话@/才会提示路径
+    // }
+  }
+}
