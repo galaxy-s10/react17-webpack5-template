@@ -1,4 +1,3 @@
-const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 默认情况下，这个插件会删除webpack.outout中的所有文件
 const CompressionPlugin = require('compression-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin'); // 注入script或link
@@ -64,12 +63,9 @@ module.exports = {
     // }
   },
   plugins: [
-    new CleanWebpackPlugin({
-      verbose: true,
-    }),
     new HtmlWebpackTagsPlugin({
       append: false,
-      publicPath: '',
+      publicPath: '', // 默认会拼上output.publicPath，因为我们引入的是cdn的地址，因此不需要拼上output.publicPath，直接publicPath:''，这样就约等于拼上空字符串''
       // links: ['https://cdn.jsdelivr.net/npm/iview@3.5.4/dist/styles/iview.css'],
       scripts: [
         { path: 'https://unpkg.com/react@17/umd/react.production.min.js' },
@@ -100,14 +96,16 @@ module.exports = {
       // exclude
       // include
     }),
-    // new PreloadWebpackPlugin({ //预加载
-    //   rel: "preload",
-    //   include: "initial",
+    // new PreloadWebpackPlugin({
+    //   // 预加载
+    //   rel: 'preload',
+    //   include: 'initial',
     //   fileBlacklist: [/\.map$/, /hot-update\.js$/],
     // }),
-    // new PreloadWebpackPlugin({ //预获取
-    //   rel: "prefetch",
-    //   include: "asyncChunks",
+    // new PreloadWebpackPlugin({
+    //   // 预获取
+    //   rel: 'prefetch',
+    //   include: 'asyncChunks',
     // }),
   ],
 };

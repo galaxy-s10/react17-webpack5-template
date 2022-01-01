@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // 自动生成index.h
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const WebpackBar = require('webpackbar');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 默认情况下，这个插件会删除webpack.outout中的所有文件
 
 const { _INFO, _SUCCESS, emoji } = require('./utils/chalkTip');
 const devConfig = require('./webpack.dev');
@@ -129,6 +130,7 @@ const commonConfig = (isProduction) => ({
           // maxSize: 50 * 1024,
           test: /[\\/]node_modules[\\/]/,
           filename: 'js/[name]-defaultVendors.js',
+          // filename: 'js/[hash:6]-defaultVendors.js',
           priority: -10,
         },
         default: {
@@ -244,6 +246,7 @@ const commonConfig = (isProduction) => ({
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(), // 这插件不能放在webpack.prod.js的plugins里，否则的话它不生效，可能是webpack和该插件的某些钩子问题
     new WebpackBar(), // 构建进度条
     new ESLintPlugin({
       failOnError: false, // 如果有任何错误，将导致模块构建失败，禁用设置为false
@@ -302,9 +305,11 @@ const commonConfig = (isProduction) => ({
       },
     }),
     new MiniCssExtractPlugin({
-      // 将 CSS 提取到单独的文件中
-      // Options similar to the same options in webpackOptions.output
-      // all options are optional
+      /**
+       * 将 CSS 提取到单独的文件中
+       * Options similar to the same options in webpackOptions.output
+       * all options are optional
+       */
       filename: 'css/[name]-[hash:6].css',
       chunkFilename: 'css/[id].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order

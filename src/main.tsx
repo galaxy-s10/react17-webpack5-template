@@ -1,4 +1,4 @@
-const a = new Promise((res, rej) => {
-  console.log(122);
-});
-console.log(a);
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App />, document.getElementById('root'));
