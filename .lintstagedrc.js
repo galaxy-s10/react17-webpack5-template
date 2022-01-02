@@ -6,5 +6,5 @@ console.log(
 );
 
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  '*.{js,jsx,ts,tsx}': ['prettier --write'],
 };

@@ -21,9 +21,14 @@ module.exports = {
   },
   extends: [
     'airbnb-base', // airbnb的eslint规范，indent：2，即一个缩进两个空格，qutoes：single，即单引号，max-len：一行100
+    'plugin:react/recommended',
     'prettier', // ℹ️ Note: You might find guides on the Internet saying you should also extend stuff like "prettier/react". Since version 8.0.0 of eslint-config-prettier, all you need to extend is "prettier"! That includes all plugins.
   ],
-  parserOptions: {},
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
   plugins: [],
   /**
    * overrides可共享配置中的配置不再覆盖.eslintrc文件中的用户设置
@@ -40,8 +45,6 @@ module.exports = {
         'airbnb-base',
         'plugin:react/recommended',
         'prettier',
-        // 'plugin:import/errors',
-        // 'plugin:import/warnings',
         'plugin:import/typescript', // 解析通过相对路径引入的tsx
       ],
       parserOptions: {},

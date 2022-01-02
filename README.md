@@ -15,3 +15,13 @@ yarn start
 ```bash
 yarn build
 ```
+
+# package.json
+
+1. 写jsx/tsx的时候，如果需要style、className等智能提示，则需要安装：@types/react，@types/react-dom
+2. git钩子：husky
+   1. pre-commit，
+3. 
+
+
+
