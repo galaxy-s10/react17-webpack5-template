@@ -1,18 +1,36 @@
-import { memo, useState, useEffect } from 'react';
-import Home from '@/pages/home';
-import style from './index.scss';
+import React, { memo, useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-console.log(style);
+import Loading from '@/components/Loading';
+import Home from '@/pages/home';
+import NotFound from '@/pages/notFound';
+import { store } from '@/stores';
+
+const Login = React.lazy(() => import('@/pages/login'));
+
 const App = () => {
   // 生命周期
   useEffect(() => {}, []);
 
   return (
-    <div className="">
-      <Home></Home>
-      <div className={style.aaa}>aaaaaa</div>
-      <span className={style.bbb}>bbbb</span>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <Login />
+              </React.Suspense>
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 };
 

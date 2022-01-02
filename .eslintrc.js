@@ -41,6 +41,7 @@ module.exports = {
     {
       files: ['*.ts', '*tsx'],
       // parser: '@typescript-eslint/parser',
+      parser: 'babel-eslint', // 这插件能动态import。默认的eslint解析器不能理解第三阶段的建议。https://github.com/import-js/eslint-plugin-import/issues/890
       extends: [
         'airbnb-base',
         'plugin:react/recommended',
@@ -55,6 +56,7 @@ module.exports = {
         'react/react-in-jsx-scope': 0,
         'no-console': 0,
         'import/no-unresolved': 0, // 不能解析带别名的路径的模块，但实际上是不影响代码运行的。找不到解决办法，只能关掉了。
+        'no-param-reassign': 0, // 禁止重新分配函数参数，https://eslint.org/docs/rules/no-param-reassign
       },
     },
   ],

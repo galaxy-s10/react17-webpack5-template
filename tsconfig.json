@@ -3,7 +3,7 @@
     "target": "es5",
     "lib": ["dom", "esnext"],
     "jsx": "react-jsx",
-    "allowJs": true,
+    "esModuleInterop": true, //ES 模块互操作,import React from 'react';react是module.exports导出的，因此需要设置该属性
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]

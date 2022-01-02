@@ -151,18 +151,35 @@ const commonConfig = (isProduction) => ({
   module: {
     // loader执行顺序：从下往上，从右往左
     rules: [
+      // {
+      //   test: /\.jsx?$/,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     {
+      //       loader: 'babel-loader',
+      //       options: {
+      //         plugins: [
+      //           !isProduction && require.resolve('react-refresh/babel'),
+      //         ].filter(Boolean),
+      //       },
+      //     },
+      //   ],
+      // },
       {
-        test: /\.[jt]sx?$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
-            options: {
-              plugins: [
-                !isProduction && require.resolve('react-refresh/babel'),
-              ].filter(Boolean),
-            },
+            // options: {
+            //   plugins: [
+            //     !isProduction && require.resolve('react-refresh/babel'),
+            //   ].filter(Boolean),
+            // },
           },
+          // {
+          //   loader: 'ts-loader',
+          // },
         ],
       },
       {
