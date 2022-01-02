@@ -6,10 +6,23 @@
   "author": "shuisheng <2274751790@qq.com>",
   "scripts": {
     "build": "webpack --config ./config/webpack.common.js --env production",
+    "commit": "cz",
     "lint": "eslint --config ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --config ./.eslintrc.js --fix . --ext .js,.jsx,.ts,.tsx",
+    "prepare": "husky install",
+    "release": "standard-version",
     "start": "cross-env webpack serve --config ./config/webpack.common.js --env development",
     "start:stats": "cross-env BundleAnalyzerPluginSwitch=true webpack serve --config ./config/webpack.common.js --env development"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "react": "^17.0.2",
@@ -21,17 +34,21 @@
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.2",
     "@babel/preset-react": "^7.14.5",
+    "@commitlint/cli": "^16.0.1",
+    "@commitlint/config-conventional": "^16.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@typescript-eslint/parser": "^5.8.1",
     "autoprefixer": "^10.2.5",
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
+    "commitizen": "^4.2.4",
     "compression-webpack-plugin": "^7.1.2",
     "copy-webpack-plugin": "^8.1.0",
     "core-js": "^3.17.2",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.0",
     "css-minimizer-webpack-plugin": "^3.0.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -44,6 +61,8 @@
     "html-webpack-externals-plugin": "^3.8.0",
     "html-webpack-plugin": "^5.3.1",
     "html-webpack-tags-plugin": "^3.0.1",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.1.4",
     "mini-css-extract-plugin": "^1.6.0",
     "node-emoji": "^1.11.0",
     "portfinder": "^1.0.28",
@@ -55,6 +74,7 @@
     "rimraf": "^3.0.2",
     "sass": "^1.45.2",
     "sass-loader": "^12.4.0",
+    "standard-version": "^9.3.2",
     "style-loader": "^2.0.0",
     "terser": "^5.7.0",
     "typescript": "^4.5.4",
