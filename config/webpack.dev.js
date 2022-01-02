@@ -11,7 +11,7 @@ console.log(
 );
 
 module.exports = new Promise((resolve) => {
-  // 默认端口8088，如果被占用了，会自动递增+1
+  // 默认端口8000，如果被占用了，会自动递增+1
   const port = 8000;
   portfinder.basePort = port;
   portfinder

@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import { memo, useState, useEffect } from 'react';
 import AuthorJPG from '../../assets/img/author.jpg';
 import style from './index.scss';
 

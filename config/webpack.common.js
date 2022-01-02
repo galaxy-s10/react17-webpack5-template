@@ -1,4 +1,5 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer'); // bundle分析
+const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 默认情况下，这个插件会删除webpack.outout中的所有文件
 const { DefinePlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin'); // 将已存在的单个文件或整个目录复制到构建目录。
@@ -7,7 +8,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // 自动生成index.h
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const WebpackBar = require('webpackbar');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 默认情况下，这个插件会删除webpack.outout中的所有文件
 
 const { _INFO, _SUCCESS, emoji } = require('./utils/chalkTip');
 const devConfig = require('./webpack.dev');
@@ -17,8 +17,6 @@ console.log(
   _INFO(`读取：${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
-
-console.log('当前env', process.env.BundleAnalyzerPluginSwitch);
 
 const commonConfig = (isProduction) => ({
   entry: {

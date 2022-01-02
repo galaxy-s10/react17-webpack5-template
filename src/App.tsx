@@ -8,7 +8,7 @@ const App = () => {
   useEffect(() => {}, []);
 
   return (
-    <div style={{}} className="">
+    <div className="">
       <Home></Home>
       <div className={style.aaa}>aaaaaa</div>
       <span className={style.bbb}>bbbb</span>
