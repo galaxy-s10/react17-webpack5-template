@@ -1,10 +1,20 @@
 # 简介
 
-基于 webpack5 + react 搭建脚手架环境
+基于react + webpack5 搭建的react项目模板，并主要使用了以下插件：
+
+- react@17
+- React-router@6
+- redux@4
 
 # 运行
 
-默认运行在 `localhost:8000` 端口（如果 8000 端口被占用了,则往后+1,直到找到一个能用的端口）
+安装依赖：
+
+```bash
+yarn install
+```
+
+启动本地服务，默认运行在 `localhost:8000` 端口（如果 8000 端口被占用了,则往后+1,直到找到一个能用的端口）
 
 ```bash
 yarn start
@@ -26,6 +36,10 @@ yarn build
 4. commitizen，执行git cz的时候可规范进行提交commit
 5. @commitlint/cli，@commitlint/config-conventional，对git commit的提交信息进行约束
 6. standard-version，更新changeLog.md以及package.json的version。
+
+# 注意
+
+node版本：v14.17.0
 
 
 

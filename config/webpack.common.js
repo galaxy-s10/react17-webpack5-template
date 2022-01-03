@@ -151,31 +151,17 @@ const commonConfig = (isProduction) => ({
   module: {
     // loader执行顺序：从下往上，从右往左
     rules: [
-      // {
-      //   test: /\.jsx?$/,
-      //   exclude: /node_modules/,
-      //   use: [
-      //     {
-      //       loader: 'babel-loader',
-      //       options: {
-      //         plugins: [
-      //           !isProduction && require.resolve('react-refresh/babel'),
-      //         ].filter(Boolean),
-      //       },
-      //     },
-      //   ],
-      // },
       {
-        test: /\.tsx?$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
-            // options: {
-            //   plugins: [
-            //     !isProduction && require.resolve('react-refresh/babel'),
-            //   ].filter(Boolean),
-            // },
+            options: {
+              plugins: [
+                !isProduction && require.resolve('react-refresh/babel'),
+              ].filter(Boolean),
+            },
           },
           // {
           //   loader: 'ts-loader',
@@ -213,7 +199,7 @@ const commonConfig = (isProduction) => ({
         sideEffects: true, // 告诉webpack是有副作用的，不对css进行删除
       },
       {
-        test: /\.s[ac]ss$/,
+        test: /\.(sass|scss)$/,
         use: [
           isProduction
             ? {
@@ -267,13 +253,12 @@ const commonConfig = (isProduction) => ({
       failOnError: false, // 如果有任何错误，将导致模块构建失败，禁用设置为false
       failOnWarning: false, // 如果有任何警告，将导致模块构建失败，禁用设置为false
     }),
-    process.env.BundleAnalyzerPluginSwitch === 'true'
-      ? new BundleAnalyzerPlugin({
-          analyzerMode: 'server',
-          generateStatsFile: true,
-          statsOptions: { source: false },
-        })
-      : { apply() {} }, // configuration.plugins should be one of these object { apply, … } | function
+    process.env.BundleAnalyzerPluginSwitch &&
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'server',
+        generateStatsFile: true,
+        statsOptions: { source: false },
+      }), // configuration.plugins should be one of these object { apply, … } | function
     new HtmlWebpackPlugin({
       filename: 'index.html',
       title: 'react-webpack-template',
@@ -329,7 +314,7 @@ const commonConfig = (isProduction) => ({
       chunkFilename: 'css/[id].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
-  ],
+  ].filter(Boolean),
 });
 
 module.exports = function (env) {

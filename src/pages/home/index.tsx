@@ -26,6 +26,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    console.log(dispatch, 22);
     dispatch(ajaxGetUserInfo());
   }, [dispatch]);
 

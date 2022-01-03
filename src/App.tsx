@@ -6,6 +6,7 @@ import Loading from '@/components/Loading';
 import Home from '@/pages/home';
 import NotFound from '@/pages/notFound';
 import { store } from '@/stores';
+import style from './index.scss';
 
 const Login = React.lazy(() => import('@/pages/login'));
 
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      <div className={style.aaa}>测试autoprefix</div>
     </Provider>
   );
 };

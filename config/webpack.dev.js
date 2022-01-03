@@ -22,6 +22,7 @@ module.exports = new Promise((resolve) => {
     .then((port) => {
       console.log(_INFO(`当前webpack-dev-server使用的端口：${port}`));
       resolve({
+        target: 'web',
         mode: 'development',
         devtool: 'source-map',
         stats: 'errors-warnings', // 只显示警告和错误信息（webpack-dev-server4.x后变了）
