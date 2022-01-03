@@ -1,10 +1,10 @@
 # 简介
 
-基于react + webpack5 搭建的react项目模板，并主要使用了以下插件：
+基于React + Typescript + Webpack5 搭建的react项目模板，并主要使用了以下插件：
 
-- react@17
-- React-router@6
-- redux@4
+- react@17.x
+- react-router-dom@6.x
+- redux@4.x
 
 # 运行
 
@@ -21,6 +21,15 @@ yarn start
 ```
 
 # 部署
+
+> 以下依赖为cdn加载：
+
+- @reduxjs/toolkit
+- react
+- react-dom
+- react-redux
+- react-router-dom
+- redux
 
 ```bash
 yarn build
@@ -39,7 +48,7 @@ yarn build
 
 # 注意
 
-node版本：v14.17.0
+当前运行的node版本：v14.17.0
 
 
 

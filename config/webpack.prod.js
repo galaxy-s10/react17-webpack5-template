@@ -22,6 +22,12 @@ module.exports = {
     // 左边是import的包名，右边是全局变量
     react: 'React', // cdn引入的https://unpkg.com/react@17/umd/react.production.min.js导出的全局变量叫: React，其实就是umd的名称。
     'react-dom': 'ReactDOM', // cdn引入的https://unpkg.com/react-dom@17/umd/react-dom.production.min.js叫: ReactDOM
+    history: 'HistoryLibrary',
+    'react-router': 'ReactRouter',
+    'react-router-dom': 'ReactRouterDOM', // react-router-dom依赖react-router和history
+    redux: 'Redux',
+    'react-redux': 'ReactRedux',
+    '@reduxjs/toolkit': 'RTK',
   },
   optimization: {
     // concatenateModules: true,  // production模式下默认true。告知 webpack 去寻找模块图形中的片段，哪些是可以安全地被合并到单一模块中。
@@ -71,6 +77,24 @@ module.exports = {
         { path: 'https://unpkg.com/react@17/umd/react.production.min.js' },
         {
           path: 'https://unpkg.com/react-dom@17/umd/react-dom.production.min.js',
+        },
+        {
+          path: 'https://unpkg.com/history@5.2.0/umd/history.production.min.js',
+        },
+        {
+          path: 'https://unpkg.com/react-router@6.2.1/umd/react-router.production.min.js',
+        },
+        {
+          path: 'https://unpkg.com/react-router-dom@6.2.1/umd/react-router-dom.production.min.js',
+        },
+        {
+          path: 'https://unpkg.com/redux@4.1.2/dist/redux.min.js',
+        },
+        {
+          path: 'https://unpkg.com/react-redux@7.2.6/dist/react-redux.min.js',
+        },
+        {
+          path: 'https://unpkg.com/@reduxjs/toolkit@1.7.1/dist/redux-toolkit.umd.min.js',
         },
       ],
     }),
