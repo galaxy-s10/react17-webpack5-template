@@ -6,7 +6,7 @@ import Loading from '@/components/Loading';
 import Home from '@/pages/home';
 import NotFound from '@/pages/notFound';
 import { store } from '@/stores';
-import style from './index.scss';
+import style from './style/index.scss';
 
 const Login = React.lazy(() => import('@/pages/login'));
 

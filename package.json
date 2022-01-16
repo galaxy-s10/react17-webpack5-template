@@ -12,6 +12,7 @@
     "prepare": "husky install",
     "release": "standard-version",
     "start": "cross-env webpack serve --config ./config/webpack.common.js --env development",
+    "start:beta": "cross-env REACT_APP_RELEASE_ENV=beta REACT_APP_RELEASE_PUBLICPATH=reactblog webpack serve --config ./config/webpack.common.js --env development",
     "start:stats": "cross-env BundleAnalyzerPluginSwitch=true webpack serve --config ./config/webpack.common.js --env development"
   },
   "config": {

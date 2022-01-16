@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // 自动生成index.h
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const WebpackBar = require('webpackbar');
+const outputStaticUrl = require('./utils/outputStaticUrl');
 
 const { _INFO, _SUCCESS, emoji } = require('./utils/chalkTip');
 const devConfig = require('./webpack.dev');
@@ -59,7 +60,7 @@ const commonConfig = (isProduction) => ({
      * 访问http://localhost:8080/logManage/logList，引入的资源就是：http://localhost:8080/js/bundle.js，就不会报错。
      * 此外，output.publicPath还可设置cdn地址。
      */
-    publicPath: '/',
+    publicPath: outputStaticUrl(),
   },
   resolve: {
     // 解析路径
@@ -302,6 +303,7 @@ const commonConfig = (isProduction) => ({
       BASE_URL: "'./'", // public下的index.html里面的icon的路径
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+        PUBLIC_PATH: JSON.stringify(outputStaticUrl()),
       },
     }),
     new MiniCssExtractPlugin({
@@ -335,7 +337,7 @@ module.exports = function (env) {
     process.env.isProductionMin = !!isProductionMin;
     // prodConfig返回的是普通对象，devConfig返回的是promise，使用Promise.resolve进行包装
     const configPromise = Promise.resolve(
-      isProduction ? (isProductionMin ? prodMinConfig : prodConfig) : devConfig
+      isProduction ? prodConfig : devConfig
     );
     configPromise.then((config) => {
       // 根据当前环境，合并配置文件

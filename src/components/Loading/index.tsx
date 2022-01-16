@@ -1,12 +1,8 @@
 import { memo, useState, useEffect } from 'react';
 
-const Loading = () => {
+const Loading = () => (
   // 生命周期
-  useEffect(() => {
-    alert('loading...');
-  }, []);
 
-  return <div>Loading...</div>;
-};
-
+  <div>Loading...</div>
+);
 export default memo(Loading);

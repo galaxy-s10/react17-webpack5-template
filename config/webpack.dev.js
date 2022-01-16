@@ -2,6 +2,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const path = require('path');
 const portfinder = require('portfinder');
 const webpack = require('webpack');
+const outputStaticUrl = require('./utils/outputStaticUrl');
 
 const { _INFO, emoji } = require('./utils/chalkTip');
 
@@ -34,14 +35,14 @@ module.exports = new Promise((resolve) => {
           compress: true, // 开启gizp压缩
           port, // 默认端口号8080
           // open: true, // 默认不打开浏览器
-          historyApiFallback: true, // 默认值：false，设置true后可解决spa页面刷新404
-          // historyApiFallback: {
-          //   rewrites: [
-          //     // 如果publicPath设置了/abc，就不能直接设置historyApiFallback: true，这样会重定向到react-webpack-template根目录下的index.html
-          //     // publicPath设置了/abc，就重定向到/abc，这样就可以了
-          //     { from: /abc/, to: "/abc" }
-          //   ]
-          // },
+          // historyApiFallback: true, // 默认值：false，设置true后可解决spa页面刷新404
+          historyApiFallback: {
+            rewrites: [
+              // 如果publicPath设置了/abc，就不能直接设置historyApiFallback: true，这样会重定向到react-webpack-template根目录下的index.html
+              // publicPath设置了/abc，就重定向到/abc，这样就可以了
+              { from: outputStaticUrl(), to: outputStaticUrl() },
+            ],
+          },
           /**
            * contentBase默认为package.json文件所在的根目录，即react-webpack-template目录
            * 打开localhost:8080/hss/demo.js,就会访问react-webpack-template目录下的hss目录下的demo.js。
@@ -55,7 +56,7 @@ module.exports = new Promise((resolve) => {
             // （webpack-dev-server4.x后变了）
             directory: path.resolve(__dirname, '../public'),
             watch: true,
-            publicPath: '/',
+            publicPath: outputStaticUrl(),
           },
           proxy: {
             '/api': {
