@@ -28,6 +28,9 @@ module.exports = new Promise((resolve) => {
         devtool: 'source-map',
         stats: 'errors-warnings', // 只显示警告和错误信息（webpack-dev-server4.x后变了）
         devServer: {
+          client: {
+            logging: 'none', // https://webpack.js.org/configuration/dev-server/#devserverclient
+          },
           // stats: 'errors-warnings', // 只显示警告和错误信息
           // hot: true, // hrm，开启模块热替换
           // hotOnly: true, // 默认情况下（hotOnly:false），如果编译失败会刷新页面。设置了true后就不会刷新整个页面
