@@ -74,81 +74,6 @@ const commonConfig = (isProduction) => ({
     // 用于解析webpack的loader
     modules: ['node_modules'],
   },
-  optimization: {
-    /**
-     * splitChunks属性，如果设置了mode: 'production'，会有默认行为，具体看官网
-     * 但即使没有设置mode: 'production'，也没有手动添加splitChunks属性，默认还是会添加splitChunks的部分行为，
-     * 比如：splitChunks.chunks:'async'等等，即会将异步代码抽离！
-     */
-    splitChunks: {
-      // 对入口文件进行代码分离
-      // chunks: 'all',  //async,initial,all
-      // minSize: 20 * 1024, //生成 chunk 的最小体积。默认：20000（19.5kb）
-      /**
-       * maxSize:尝试将大于maxSize的chunk分割成较小的部分chunks。
-       * 官网写的默认值是0，但是，实际测试：如果在chunks:async的时候，确实这个属性会生效，会将异步代码配合minSize进行抽离；
-       * 但是如果在chunks:initial或all的时候，如果不手动添加maxSize属性，就不会将同步代码配合minSize进行抽离！
-       * 因此，如果希望maxSize可以对同步和异步代码都进行分离，就手动设置maxSize:0，或者手动设置maxSize为自己需要设置的值，
-       * 但一定不能不写这个maxSize!最起码也得写一个maxSize:0，虽然这样写会报警告，或者直接写maxSize的值和minSize值一样！
-       */
-      // maxSize: 0,   //不写maxSize默认就是0，这里手动设置0
-      // maxSize: 30 * 1024,
-      // minRemainingSize: 0, //???
-      // minChunks: 1, //模块被不同entry引用的次数大于等于才能分割。
-      // maxAsyncRequests: 30, //按需加载时的最大并行请求数。默认：30
-      // maxInitialRequests: 30, //按需加载时的最大并行请求数。默认：30
-      /**
-       * enforceSizeThreshold：强制执行拆分的体积阈值和其他限制（minRemainingSize，maxAsyncRequests，maxInitialRequests）将被忽略。
-       * 即拆分的包大小范围允许在这个阈值范围，即设置minSize:20 * 1024，enforceSizeThreshold: 10 * 1024，
-       * 允许拆分的包在10kb-30kb之间！
-       */
-      // enforceSizeThreshold: 1 * 1024,  //默认：50000byte
-      /**
-       * 不建议全局设置filename，因为如果缓存组没有手动设置filename，默认缓存组会继承全局
-       * 的filename，这样在某些情况会显得很奇葩，比如：全局设置了chunks:'async'，filename:'[id]-asyncChunks.js',
-       * 而缓存组设置了一个chunks:'initial',且没有设置它的filename，那么最终打包会先匹配缓存组，然后匹配
-       * 到同步代码就抽离，然后设置filename，由于这个缓存组没有设置它的filename，因此会继承全局的filename，
-       * 因此就会把同步代码抽离后叫[id]-asyncChunks.js，虽然还是一样把代码抽离出来了，但是
-       * 抽离出来的文件和文件名"货不对板"，做不到见名知意，这样就很别扭了。因此如果设置设置了全局的filename，那
-       * 么最好就是每一个缓存组都设置自己的filename，这样就可以和全局的进行区分了
-       */
-      // filename: "[id]-splitChunks.js", //默认[name]-bundle.js
-      /**
-       * 缓存组可以继承和/或覆盖来自 splitChunks.* 的任何选项
-       * 即如果匹配到缓存缓存组里的某一个，如vendor，vendor里的设置会对splitChunks的设置进行继承或覆盖
-       * 即vendor里没有设置chunks，vendor就会继承splitChunks的chunks，vendor设置了filename，会覆盖splitChunks的filename
-       */
-      cacheGroups: {
-        // cacheGroups里的优先级默认比外面的高
-        // defaultVendors:false,  //禁用默认webpack默认设置的defaultVendors缓存组
-        // default:false, //禁用默认webpack默认设置的default缓存组
-        defaultVendors: {
-          // 重写默认的defaultVendors
-          chunks: 'initial',
-          // minSize: 50 * 1024,
-          // maxSize: 50 * 1024,
-          test: /[\\/]node_modules[\\/]/,
-          filename: 'js/[name]-defaultVendors.js',
-          // filename: 'js/[hash:6]-defaultVendors.js',
-          priority: -10,
-        },
-        default: {
-          // 重写默认的default
-          chunks: 'all',
-          filename: 'js/[name]-default.js',
-          minChunks: 2, // 至少被minChunks个入口文件引入了minChunks次。
-          priority: -20,
-        },
-        // 这里动态代码会匹配到这里，会使用[id]-test.js作为文件名
-        // 注释了test缓存组后，动态代码就会使用output.chunkFilename或output.filename
-        // test: {
-        //   chunks: 'all',
-        //   filename: "[id]-test.js",
-        //   priority: -30
-        // },
-      },
-    },
-  },
   module: {
     // loader执行顺序：从下往上，从右往左
     rules: [
@@ -162,6 +87,12 @@ const commonConfig = (isProduction) => ({
               plugins: [
                 !isProduction && require.resolve('react-refresh/babel'),
               ].filter(Boolean),
+              // This is a feature of `babel-loader` for webpack (not Babel itself).
+              // It enables caching results in ./node_modules/.cache/babel-loader/
+              // directory for faster rebuilds.
+              cacheDirectory: true,
+              // See #6846 for context on why cacheCompression is disabled
+              cacheCompression: false,
             },
           },
           // {
@@ -251,8 +182,16 @@ const commonConfig = (isProduction) => ({
     new CleanWebpackPlugin(), // 这插件不能放在webpack.prod.js的plugins里，否则的话它不生效，可能是webpack和该插件的某些钩子问题
     new WebpackBar(), // 构建进度条
     new ESLintPlugin({
+      extensions: ['js', 'jsx', 'ts', 'tsx'],
+      emitError: false, // 发现的错误将始终发出，禁用设置为false.
+      emitWarning: false, // 找到的警告将始终发出，禁用设置为false.
       failOnError: false, // 如果有任何错误，将导致模块构建失败，禁用设置为false
       failOnWarning: false, // 如果有任何警告，将导致模块构建失败，禁用设置为false
+      cache: true,
+      cacheLocation: path.resolve(
+        __dirname,
+        '../node_modules/.cache/.eslintcache'
+      ),
     }),
     process.env.BundleAnalyzerPluginSwitch &&
       new BundleAnalyzerPlugin({
