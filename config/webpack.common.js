@@ -8,14 +8,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // 自动生成index.h
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const WebpackBar = require('webpackbar');
+const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 const outputStaticUrl = require('./utils/outputStaticUrl');
 
-const { _INFO, _SUCCESS, emoji } = require('./utils/chalkTip');
+const { chalkINFO, chalkSUCCESS, emoji } = require('./utils/chalkTip');
 const devConfig = require('./webpack.dev');
 const prodConfig = require('./webpack.prod');
 
 console.log(
-  _INFO(`读取：${__filename.slice(__dirname.length + 1)}`),
+  chalkINFO(`读取：${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
 
@@ -95,9 +96,6 @@ const commonConfig = (isProduction) => ({
               cacheCompression: false,
             },
           },
-          // {
-          //   loader: 'ts-loader',
-          // },
         ],
       },
       {
@@ -179,8 +177,20 @@ const commonConfig = (isProduction) => ({
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(), // 这插件不能放在webpack.prod.js的plugins里，否则的话它不生效，可能是webpack和该插件的某些钩子问题
+    isProduction && new CleanWebpackPlugin(), // 这插件不能放在webpack.prod.js的plugins里，否则的话它不生效，可能是webpack和该插件的某些钩子问题
+    isProduction &&
+      new MiniCssExtractPlugin({
+        /**
+         * 将 CSS 提取到单独的文件中
+         * Options similar to the same options in webpackOptions.output
+         * all options are optional
+         */
+        filename: 'css/[name]-[hash:6].css',
+        chunkFilename: 'css/[id].css',
+        ignoreOrder: false, // Enable to remove warnings about conflicting order
+      }),
     new WebpackBar(), // 构建进度条
+    // new FriendlyErrorsWebpackPlugin(),
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
       emitError: false, // 发现的错误将始终发出，禁用设置为false.
@@ -245,16 +255,6 @@ const commonConfig = (isProduction) => ({
         PUBLIC_PATH: JSON.stringify(outputStaticUrl()),
       },
     }),
-    new MiniCssExtractPlugin({
-      /**
-       * 将 CSS 提取到单独的文件中
-       * Options similar to the same options in webpackOptions.output
-       * all options are optional
-       */
-      filename: 'css/[name]-[hash:6].css',
-      chunkFilename: 'css/[id].css',
-      ignoreOrder: false, // Enable to remove warnings about conflicting order
-    }),
   ].filter(Boolean),
 });
 
@@ -281,7 +281,7 @@ module.exports = function (env) {
     configPromise.then((config) => {
       // 根据当前环境，合并配置文件
       const mergeConfig = merge(commonConfig(isProduction), config);
-      console.log(_SUCCESS(`当前是：${process.env.NODE_ENV}环境`));
+      console.log(chalkSUCCESS(`当前是：${process.env.NODE_ENV}环境`));
       resolve(mergeConfig);
     });
   });

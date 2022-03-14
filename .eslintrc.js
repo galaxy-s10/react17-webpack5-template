@@ -1,7 +1,7 @@
-const { _INFO, emoji } = require('./config/utils/chalkTip');
+const { chalkINFO, emoji } = require('./config/utils/chalkTip');
 
 console.log(
-  _INFO(`读取：${__filename.slice(__dirname.length + 1)}`),
+  chalkINFO(`读取：${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
 

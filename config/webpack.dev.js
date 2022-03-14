@@ -4,10 +4,10 @@ const portfinder = require('portfinder');
 const webpack = require('webpack');
 const outputStaticUrl = require('./utils/outputStaticUrl');
 
-const { _INFO, emoji } = require('./utils/chalkTip');
+const { chalkINFO, emoji } = require('./utils/chalkTip');
 
 console.log(
-  _INFO(`读取：${__filename.slice(__dirname.length + 1)}`),
+  chalkINFO(`读取：${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
 
@@ -21,7 +21,7 @@ module.exports = new Promise((resolve) => {
       stopPort: 9000,
     })
     .then((port) => {
-      console.log(_INFO(`当前webpack-dev-server使用的端口：${port}`));
+      console.log(chalkINFO(`当前webpack-dev-server使用的端口：${port}`));
       resolve({
         target: 'web',
         mode: 'development',

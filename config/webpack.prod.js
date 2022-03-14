@@ -3,7 +3,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin'); // 注入script或link
 const TerserPlugin = require('terser-webpack-plugin');
 
-const { _INFO, emoji } = require('./utils/chalkTip');
+const { chalkINFO, emoji } = require('./utils/chalkTip');
 
 // const PurgeCssPlugin = require('purgecss-webpack-plugin');// css的Tree Shaking
 // const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin'); // 弃用，使用html-webpack-tags-plugin代替
@@ -11,7 +11,7 @@ const { _INFO, emoji } = require('./utils/chalkTip');
 // const webpack = require('webpack');
 
 console.log(
-  _INFO(`读取：${__filename.slice(__dirname.length + 1)}`),
+  chalkINFO(`读取：${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
 
