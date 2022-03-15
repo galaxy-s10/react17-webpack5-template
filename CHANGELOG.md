@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/galaxy-s10/react-webpack-template/compare/v0.0.1...v0.0.2) (2022-03-15)
+
+
+### Bug Fixes
+
+* 完善js的eslint ([f64095b](https://github.com/galaxy-s10/react-webpack-template/commit/f64095bde51e5a433e212224945537b1ea56baf8))
+
+
+### Performance Improvements
+
+* 优化webpack配置 ([80a8f5c](https://github.com/galaxy-s10/react-webpack-template/commit/80a8f5c5f67a16622eaabc01f269d2b09d4db5f8))
+
 ### 0.0.1 (2022-03-15)
 
 
