@@ -4,7 +4,7 @@
     "module": "commonjs", // "target": "esnext"引起的连锁反应，，，仅当 '--module' 标志设置为 'es2020'、'es2022'、'esnext'、 'commonjs'、'amd'、'system'、'umd'、'node12' 或 'nodenext' 时，才支持动态导入。
     "lib": ["dom", "esnext"],
     "jsx": "react-jsx",
-    "moduleResolution": "node", // "target": "esnext"引起的连锁反应，，，moduleResolution就需要设置为node，否则webpack.common.ts里面引入的包会提示设置moduleResolution:node。
+    // "moduleResolution": "node", // "target": "esnext"引起的连锁反应，，，moduleResolution就需要设置为node，否则webpack.common.ts里面引入的包会提示设置moduleResolution:node。也可以设置"module": "commonjs"解决。
     "esModuleInterop": true, // ES模块互操作，import React from 'react';react是module.exports导出的，因此需要设置该属性。而且诸如.eslintrc.js，.versionrc.js，babel.config.js都是modules.exports导出的，也需要设置该属性
     "forceConsistentCasingInFileNames": true, // 在文件名中强制使用一致的大小写
     "baseUrl": "./",

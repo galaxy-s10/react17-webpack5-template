@@ -31,12 +31,13 @@ module.exports = {
   env: {
     browser: true,
   },
+  // parser: '@typescript-eslint/parser',
   extends: [
-    'airbnb-base', // airbnb的eslint规范，indent：2，即一个缩进两个空格，qutoes：single，即单引号，max-len：一行100
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:import/typescript', // 解析通过相对路径引入的tsx
-    'prettier', // ℹ️ Note: You might find guides on the Internet saying you should also extend stuff like "prettier/react". Since version 8.0.0 of eslint-config-prettier, all you need to extend is "prettier"! That includes all plugins.
+    // 'airbnb-base', // airbnb的eslint规范，indent：2，即一个缩进两个空格，qutoes：single，即单引号，max-len：一行100
+    // 'eslint:recommended',
+    // 'plugin:react/recommended',
+    // 'plugin:import/typescript', // 解析通过相对路径引入的tsx
+    // 'prettier', // ℹ️ Note: You might find guides on the Internet saying you should also extend stuff like "prettier/react". Since version 8.0.0 of eslint-config-prettier, all you need to extend is "prettier"! That includes all plugins.
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -54,15 +55,15 @@ module.exports = {
   overrides: [
     {
       files: ['*.ts', '*tsx'],
-      // parser: '@typescript-eslint/parser',// 好像不用它也行。
+      parser: '@typescript-eslint/parser',
       /**
        * babel-eslint插件能动态import。默认的eslint解析器不能理解第三阶段的建议。https://github.com/import-js/eslint-plugin-import/issues/890
        * babel-eslint@10.1.0: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
        * 好像不用它也行。
+       * parser: '@babel/eslint-parser',
        */
-      // parser: '@babel/eslint-parser',
       extends: [
-        'airbnb-base',
+        'airbnb-base', //爱彼迎的规范比较严，但是有个很喜欢的地方，会对引入的包排序。
         'eslint:recommended',
         'plugin:react/recommended',
         'plugin:import/typescript', // 解析通过相对路径引入的tsx
@@ -78,6 +79,7 @@ module.exports = {
         'import/no-unresolved': 0, // 不能解析带别名的路径的模块，但实际上是不影响代码运行的。找不到解决办法，只能关掉了。
         'no-param-reassign': 0, // 禁止重新分配函数参数，https://eslint.org/docs/rules/no-param-reassign
         'import/no-extraneous-dependencies': 0, // 开发/生产依赖混乱
+        'no-use-before-define': 0, // 不允许在定义变量之前使用它们。
       },
     },
   ],

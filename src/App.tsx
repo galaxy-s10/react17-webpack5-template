@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Home from '@/pages/home';
 import NotFound from '@/pages/notFound';

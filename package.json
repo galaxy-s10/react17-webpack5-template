@@ -1,6 +1,6 @@
 {
   "name": "react-webpack-template",
-  "version": "0.0.2",
+  "version": "0.0.0",
   "repository": "https://github.com/galaxy-s10/react-webpack-template.git",
   "license": "MIT",
   "author": "shuisheng <2274751790@qq.com>",
@@ -43,6 +43,7 @@
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
+    "@typescript-eslint/parser": "^5.15.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
     "clean-webpack-plugin": "^4.0.0",
