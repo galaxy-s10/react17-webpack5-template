@@ -31,7 +31,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  // parser: '@typescript-eslint/parser',
+  parser: '@typescript-eslint/parser',
   extends: [
     // 'airbnb-base', // airbnb的eslint规范，indent：2，即一个缩进两个空格，qutoes：single，即单引号，max-len：一行100
     // 'eslint:recommended',
