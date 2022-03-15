@@ -3,6 +3,7 @@ import ESLintPlugin from 'eslint-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin'; // 自动生成index.html文件(并引入打包的js)
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import WebpackBar from 'webpackbar';
 import path from 'path';
 
@@ -75,6 +76,14 @@ const commonConfig = (isProduction) => ({
   resolveLoader: {
     // 用于解析webpack的loader
     modules: ['node_modules'],
+  },
+  cache: {
+    type: 'filesystem', // filesystem长缓存，如果是memory缓存的话，下次启动就没了
+    buildDependencies: {
+      // https://webpack.js.org/configuration/cache/#cacheallowcollectingmemory
+      // 建议cache.buildDependencies.config: [__filename]在您的 webpack 配置中设置以获取最新配置和所有依赖项。
+      config: [__filename],
+    },
   },
   module: {
     // loader执行顺序：从下往上，从右往左
@@ -192,6 +201,18 @@ const commonConfig = (isProduction) => ({
       }),
     new WebpackBar(), // 构建进度条
     new FriendlyErrorsWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      /**
+       * async 为 false，同步的将错误信息反馈给 webpack，如果报错了，webpack 就会编译失败
+       * async 默认为 true，异步的将错误信息反馈给 webpack，如果报错了，不影响 webpack 的编译
+       */
+      async: true,
+      /**
+       * devServer如果设置为false，则不会向 Webpack Dev Server 报告错误。
+       * 但是控制台还是会打印错误。
+       */
+      devServer: false,
+    }),
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
       emitError: false, // 发现的错误将始终发出，禁用设置为false.

@@ -23,7 +23,8 @@ module.exports = {
     ],
     '@babel/preset-react',
     /**
-     * react_app源码在解析tsx的时候有这句注释： The preset includes JSX, Flow, TypeScript, and some ESnext features，
+     * webpack编译ts的方案，1，ts-loader；2，babel，现在用的是第二种方案，因此需要添加@babel/preset-typescrip。
+     * 而且react_app源码在解析tsx的时候有这句注释： The preset includes JSX, Flow, TypeScript, and some ESnext features，
      * 因此添加@babel/preset-typescript，如果不添加'@babel/preset-typescript，export type xxx，就会报错：
      * Support for the experimental syntax 'flow' isn't currently enabled (11:8):
      * Add @babel/preset-flow (https://git.io/JfeDn) to the 'presets' section of your Babel config to enable transformation.
