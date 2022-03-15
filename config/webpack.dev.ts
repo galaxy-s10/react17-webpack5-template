@@ -1,27 +1,26 @@
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const path = require('path');
-const portfinder = require('portfinder');
-const webpack = require('webpack');
-const outputStaticUrl = require('./utils/outputStaticUrl');
+import path from 'path';
+import portfinder from 'portfinder';
+import webpack from 'webpack';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
-const { chalkINFO, emoji } = require('./utils/chalkTip');
+import { chalkINFO, emoji } from './utils/chalkTip';
+import { outputStaticUrl } from './utils/outputStaticUrl';
 
 console.log(
-  chalkINFO(`读取：${__filename.slice(__dirname.length + 1)}`),
+  chalkINFO(`读取: ${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
 
 module.exports = new Promise((resolve) => {
   // 默认端口8000，如果被占用了，会自动递增+1
-  const port = 8000;
-  portfinder.basePort = port;
+  const defaultPort = 8000;
   portfinder
     .getPortPromise({
-      port,
-      stopPort: 9000,
+      port: defaultPort, // 最小端口
+      stopPort: 9000, // 最大端口
     })
     .then((port) => {
-      console.log(chalkINFO(`当前webpack-dev-server使用的端口：${port}`));
+      console.log(chalkINFO(`当前webpack-dev-server使用的端口: ${port}`));
       resolve({
         target: 'web',
         mode: 'development',
@@ -86,7 +85,7 @@ module.exports = new Promise((resolve) => {
         ],
       });
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
+      console.log(error);
     });
 });

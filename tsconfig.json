@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
+    "module": "commonjs", // "target": "esnext"引起的连锁反应，，，仅当 '--module' 标志设置为 'es2020'、'es2022'、'esnext'、 'commonjs'、'amd'、'system'、'umd'、'node12' 或 'nodenext' 时，才支持动态导入。
     "lib": ["dom", "esnext"],
     "jsx": "react-jsx",
-    "esModuleInterop": true, //ES 模块互操作,import React from 'react';react是module.exports导出的，因此需要设置该属性
+    "moduleResolution": "node", // "target": "esnext"引起的连锁反应，，，moduleResolution就需要设置为node，否则webpack.common.ts里面引入的包会提示设置moduleResolution:node。
+    "esModuleInterop": true, // ES模块互操作，import React from 'react';react是module.exports导出的，因此需要设置该属性。而且诸如.eslintrc.js，.versionrc.js，babel.config.js都是modules.exports导出的，也需要设置该属性
+    "forceConsistentCasingInFileNames": true, // 在文件名中强制使用一致的大小写
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
-    },
-    "allowJs": true
+    }
     // "paths": {
     //   "@/*": ["./src/*"] //这样写的话，@/不会提示路径，得使用baseUrl:'./'+paths:{"@/*": ["src/*"]}这样才的话@/才会提示路径
     // }
   }
+  // "include": ["**/*.js", "**/*.ts", "**/*.tsx"]
 }

@@ -1,6 +1,6 @@
 # 简介
 
-基于React + Typescript + Webpack5 搭建的react项目模板，并主要使用了以下插件：
+基于 React + Typescript + Webpack5 搭建的 react 项目模板，并主要使用了以下插件：
 
 - react@17.x
 - react-router-dom@6.x
@@ -22,7 +22,7 @@ yarn start
 
 # 部署
 
-> 以下依赖为cdn加载：
+> 以下依赖为 cdn 加载：
 
 - @reduxjs/toolkit
 - react
@@ -37,18 +37,15 @@ yarn build
 
 # package.json
 
-1. 写jsx/tsx的时候，如果需要style、className等智能提示，则需要安装：@types/react
+1. 写 jsx/tsx 的时候，如果需要 style、className 等智能提示，则需要安装：@types/react
 2. lint-staged，执行一些操作，如：prettier、eslint
-3. husky，git钩子
-   1. pre-commit，在git commit前执行lint-staged
-   2. commit-msg，在git commit后执行commitlint
-4. commitizen，执行git cz的时候可规范进行提交commit
-5. @commitlint/cli，@commitlint/config-conventional，对git commit的提交信息进行约束
-6. standard-version，更新changeLog.md以及package.json的version。
+3. husky，git 钩子
+   1. pre-commit，在 git commit 前执行 lint-staged
+   2. commit-msg，在 git commit 后执行 commitlint
+4. commitizen，执行 git cz 的时候可规范进行提交 commit
+5. @commitlint/cli，@commitlint/config-conventional，对 git commit 的提交信息进行约束
+6. standard-version，更新 changeLog.md 以及 package.json 的 version。
 
 # 注意
 
-当前运行的node版本：v14.17.0
-
-
-
+当前运行的 node 版本：v14.17.0

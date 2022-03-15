@@ -14,10 +14,7 @@ const Home = () => {
   //   return state.counter;
   // });
   // useAppSelector可以省略RootState
-  const counter = useAppSelector((state) => {
-    console.log(state, 111);
-    return state.counter;
-  });
+  const counter = useAppSelector((state) => state.counter);
 
   const dispatch = useAppDispatch();
   // 生命周期
@@ -26,7 +23,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log(dispatch, 22);
     dispatch(ajaxGetUserInfo());
   }, [dispatch]);
 

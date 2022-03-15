@@ -1,17 +1,15 @@
-const CompressionPlugin = require('compression-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin'); // 注入script或link
-const TerserPlugin = require('terser-webpack-plugin');
+import CompressionPlugin from 'compression-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin'; // 注入script或link
+import TerserPlugin from 'terser-webpack-plugin';
 
-const { chalkINFO, emoji } = require('./utils/chalkTip');
+import { chalkINFO, emoji } from './utils/chalkTip';
 
 // const PurgeCssPlugin = require('purgecss-webpack-plugin');// css的Tree Shaking
-// const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin'); // 弃用，使用html-webpack-tags-plugin代替
 // const glob = require('glob')
 // const webpack = require('webpack');
-
 console.log(
-  chalkINFO(`读取：${__filename.slice(__dirname.length + 1)}`),
+  chalkINFO(`读取: ${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
 

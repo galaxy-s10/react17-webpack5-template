@@ -6,17 +6,18 @@ import Loading from '@/components/Loading';
 import Home from '@/pages/home';
 import NotFound from '@/pages/notFound';
 import { store } from '@/stores';
+
+import { outputStaticUrl } from '../config/utils/outputStaticUrl';
 import style from './style/index.scss';
 
 const Login = React.lazy(() => import('@/pages/login'));
-
 const App = () => {
   // 生命周期
   useEffect(() => {}, []);
 
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename={outputStaticUrl()}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -27,7 +28,6 @@ const App = () => {
               </React.Suspense>
             }
           />
-
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

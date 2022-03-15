@@ -1,22 +1,23 @@
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer'); // bundle分析
-const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 默认情况下，这个插件会删除webpack.outout中的所有文件
-const { DefinePlugin } = require('webpack');
-const { merge } = require('webpack-merge');
-const CopyWebpackPlugin = require('copy-webpack-plugin'); // 将已存在的单个文件或整个目录复制到构建目录。
-const ESLintPlugin = require('eslint-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin'); // 自动生成index.html文件(并引入打包的js)
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
-const WebpackBar = require('webpackbar');
-const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
-const outputStaticUrl = require('./utils/outputStaticUrl');
+import CopyWebpackPlugin from 'copy-webpack-plugin'; // 将已存在的单个文件或整个目录复制到构建目录。
+import ESLintPlugin from 'eslint-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin'; // 自动生成index.html文件(并引入打包的js)
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin';
+import WebpackBar from 'webpackbar';
+import path from 'path';
 
-const { chalkINFO, chalkSUCCESS, emoji } = require('./utils/chalkTip');
+import { DefinePlugin } from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'; // bundle分析
+import { merge } from 'webpack-merge';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'; // 默认情况下，这个插件会删除webpack.outout中的所有文件
+import { APP_ENV, APP_NAME, outputStaticUrl } from './utils/outputStaticUrl';
+import { chalkINFO, chalkSUCCESS, emoji } from './utils/chalkTip';
+
 const devConfig = require('./webpack.dev');
 const prodConfig = require('./webpack.prod');
 
 console.log(
-  chalkINFO(`读取：${__filename.slice(__dirname.length + 1)}`),
+  chalkINFO(`读取: ${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
 
@@ -190,7 +191,7 @@ const commonConfig = (isProduction) => ({
         ignoreOrder: false, // Enable to remove warnings about conflicting order
       }),
     new WebpackBar(), // 构建进度条
-    // new FriendlyErrorsWebpackPlugin(),
+    new FriendlyErrorsWebpackPlugin(),
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
       emitError: false, // 发现的错误将始终发出，禁用设置为false.
@@ -203,7 +204,7 @@ const commonConfig = (isProduction) => ({
         '../node_modules/.cache/.eslintcache'
       ),
     }),
-    process.env.BundleAnalyzerPluginSwitch &&
+    process.env.WEBPACK_ANALYZER_SWITCH &&
       new BundleAnalyzerPlugin({
         analyzerMode: 'server',
         generateStatsFile: true,
@@ -251,8 +252,15 @@ const commonConfig = (isProduction) => ({
       // 定义全局变量
       BASE_URL: "'./'", // public下的index.html里面的icon的路径
       'process.env': {
+        // 值必须是字符串，否则会报错！
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
         PUBLIC_PATH: JSON.stringify(outputStaticUrl()),
+        REACT_APP_RELEASE_PUBLICPATH: JSON.stringify(
+          APP_NAME === undefined ? '/' : APP_NAME
+        ),
+        REACT_APP_RELEASE_ENV: JSON.stringify(
+          APP_ENV === undefined ? '/' : APP_ENV
+        ),
       },
     }),
   ].filter(Boolean),
@@ -261,7 +269,6 @@ const commonConfig = (isProduction) => ({
 module.exports = function (env) {
   return new Promise((resolve) => {
     const isProduction = env.production;
-    const isProductionMin = env.productionMin;
     /**
      * 注意：在node环境下，给process.env这个对象添加的所有属性，都会默认转成字符串,
      * 如果给process.env.NODE_ENV = undefined，赋值的时候node会将undefined转成"undefined"再赋值
@@ -273,7 +280,6 @@ module.exports = function (env) {
     // 改进：process.env.production = isProduction?true:false,这样的话，process.env.production就要么是字符串"true"，要么是字符串"false"
     // 这里要先判断isProduction,判断完再将字符串赋值给process.env.NODE_ENV，就万无一失了
     process.env.NODE_ENV = isProduction ? 'production' : 'development';
-    process.env.isProductionMin = !!isProductionMin;
     // prodConfig返回的是普通对象，devConfig返回的是promise，使用Promise.resolve进行包装
     const configPromise = Promise.resolve(
       isProduction ? prodConfig : devConfig
@@ -281,7 +287,7 @@ module.exports = function (env) {
     configPromise.then((config) => {
       // 根据当前环境，合并配置文件
       const mergeConfig = merge(commonConfig(isProduction), config);
-      console.log(chalkSUCCESS(`当前是：${process.env.NODE_ENV}环境`));
+      console.log(chalkSUCCESS(`当前是: ${process.env.NODE_ENV}环境`));
       resolve(mergeConfig);
     });
   });

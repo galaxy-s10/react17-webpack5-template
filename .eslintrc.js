@@ -1,8 +1,9 @@
-const { chalkINFO, emoji } = require('./config/utils/chalkTip');
+const chalk = require('chalk');
 
 console.log(
-  chalkINFO(`读取：${__filename.slice(__dirname.length + 1)}`),
-  emoji.get('white_check_mark')
+  `${chalk.bgBlueBright.black(' INFO ')} ${chalk.blueBright(
+    `读取了: ${__filename.slice(__dirname.length + 1)}`
+  )}`
 );
 
 module.exports = {
@@ -15,13 +16,26 @@ module.exports = {
     // 'import/parsers': {
     //   '@typescript-eslint/parser': ['.ts', '.tsx'],
     // },
+    react: {
+      // 不设置的话，yarn lint会提示:https://github.com/yannickcr/eslint-plugin-react#configuration
+      createClass: 'createReactClass', // Regex for Component Factory to use,
+      // default to "createReactClass"
+      pragma: 'React', // Pragma to use, default to "React"
+      fragment: 'Fragment', // Fragment to use (may be a property of <pragma>), default to "Fragment"
+      version: 'detect', // React version. "detect" automatically picks the version you have installed.
+      // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
+      // It will default to "latest" and warn if missing, and to "detect" in the future
+      flowVersion: '0.53', // Flow version
+    },
   },
   env: {
     browser: true,
   },
   extends: [
     'airbnb-base', // airbnb的eslint规范，indent：2，即一个缩进两个空格，qutoes：single，即单引号，max-len：一行100
+    'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:import/typescript', // 解析通过相对路径引入的tsx
     'prettier', // ℹ️ Note: You might find guides on the Internet saying you should also extend stuff like "prettier/react". Since version 8.0.0 of eslint-config-prettier, all you need to extend is "prettier"! That includes all plugins.
   ],
   parserOptions: {
@@ -40,23 +54,30 @@ module.exports = {
   overrides: [
     {
       files: ['*.ts', '*tsx'],
-      // parser: '@typescript-eslint/parser',
-      parser: 'babel-eslint', // 这插件能动态import。默认的eslint解析器不能理解第三阶段的建议。https://github.com/import-js/eslint-plugin-import/issues/890
+      // parser: '@typescript-eslint/parser',// 好像不用它也行。
+      /**
+       * babel-eslint插件能动态import。默认的eslint解析器不能理解第三阶段的建议。https://github.com/import-js/eslint-plugin-import/issues/890
+       * babel-eslint@10.1.0: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
+       * 好像不用它也行。
+       */
+      // parser: '@babel/eslint-parser',
       extends: [
         'airbnb-base',
+        'eslint:recommended',
         'plugin:react/recommended',
-        'prettier',
         'plugin:import/typescript', // 解析通过相对路径引入的tsx
+        'prettier',
       ],
       parserOptions: {},
       plugins: [],
       rules: {
         'import/prefer-default-export': 0, // 当模块只有一个导出时，更喜欢使用默认导出而不是命名导出。
-        'import/extensions': 0, // 确保在导入路径中一致使用文件扩展名
-        'react/react-in-jsx-scope': 0,
+        'import/extensions': 0, // 确保在导入路径中一致使用文件扩展名，即所有的导入都要加文件的扩展名。
+        'react/react-in-jsx-scope': 0, // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md
         'no-console': 0,
         'import/no-unresolved': 0, // 不能解析带别名的路径的模块，但实际上是不影响代码运行的。找不到解决办法，只能关掉了。
         'no-param-reassign': 0, // 禁止重新分配函数参数，https://eslint.org/docs/rules/no-param-reassign
+        'import/no-extraneous-dependencies': 0, // 开发/生产依赖混乱
       },
     },
   ],
@@ -81,7 +102,7 @@ module.exports = {
     // 'no-plusplus': 0,
     // 'arrow-body-style': [1, 'as-needed'], // 在可以省略的地方强制不使用大括号（默认）
     // 'global-require': 1, // 此规则要求所有调用require()都在模块的顶层，类似于 ES6import和export语句，也只能在顶层发生。
-    'no-shadow': 0, // https://eslint.org/docs/rules/no-shadow
+    // 'no-shadow': 0, // 不允许在外部范围中声明的隐藏变量中的变量声明。https://eslint.org/docs/rules/no-shadow
     // 'import/prefer-default-export': 0, // 当模块只有一个导出时，更喜欢使用默认导出而不是命名导出。
     // 'no-undef': 0, // https://github.com/typescript-eslint/typescript-eslint/issues/2528#issuecomment-689369395
     // 'no-param-reassign': 0,

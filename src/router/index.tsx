@@ -9,5 +9,4 @@ const routes = useRoutes([
     element: () => <Home />,
   },
 ]);
-
 export default routes;
