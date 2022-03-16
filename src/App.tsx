@@ -1,14 +1,14 @@
 import React, { memo, useEffect } from 'react';
 import { Provider } from 'react-redux';
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import { outputStaticUrl } from '../config/utils/outputStaticUrl';
+import style from './style/index.scss';
+
 import Loading from '@/components/Loading';
 import Home from '@/pages/home';
 import NotFound from '@/pages/notFound';
 import { store } from '@/stores';
-
-import { outputStaticUrl } from '../config/utils/outputStaticUrl';
-import style from './style/index.scss';
 
 const Login = React.lazy(() => import('@/pages/login'));
 const App = () => {

@@ -1,26 +1,27 @@
-import CopyWebpackPlugin from 'copy-webpack-plugin'; // 将已存在的单个文件或整个目录复制到构建目录。
-import ESLintPlugin from 'eslint-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin'; // 自动生成index.html文件(并引入打包的js)
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import WebpackBar from 'webpackbar';
 import path from 'path';
 
+import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'; // 默认情况下，这个插件会删除webpack.outout中的所有文件
+import CopyWebpackPlugin from 'copy-webpack-plugin'; // 将已存在的单个文件或整个目录复制到构建目录。
+import ESLintPlugin from 'eslint-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin'; // 自动生成index.html文件(并引入打包的js)
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { DefinePlugin } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'; // bundle分析
 import { merge } from 'webpack-merge';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin'; // 默认情况下，这个插件会删除webpack.outout中的所有文件
-import { APP_ENV, APP_NAME, outputStaticUrl } from './utils/outputStaticUrl';
-import { chalkINFO, chalkSUCCESS, emoji } from './utils/chalkTip';
+import WebpackBar from 'webpackbar';
 
-const devConfig = require('./webpack.dev');
-const prodConfig = require('./webpack.prod');
+import { chalkINFO, chalkSUCCESS, emoji } from './utils/chalkTip';
+import { APP_ENV, APP_NAME, outputStaticUrl } from './utils/outputStaticUrl';
+import devConfig from './webpack.dev';
+import prodConfig from './webpack.prod';
 
 console.log(
   chalkINFO(`读取: ${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
+console.log(JSON.stringify(outputStaticUrl()));
 
 const commonConfig = (isProduction) => ({
   entry: {
@@ -37,16 +38,16 @@ const commonConfig = (isProduction) => ({
     // },
   },
   output: {
-    filename: 'js/[name]-bundle.js', // 入口文件打包生成后的文件的文件名
+    filename: 'js/[name]-[contenthash]-bundle.js', // 入口文件打包生成后的文件的文件名
     /**
      * 入口文件中，符合条件的代码，被抽离出来后生成的文件的文件名
      * 如：动态(即异步)导入，默认不管大小，是一定会被单独抽离出来的。
      * 如果一个模块既被同步引了，又被异步引入了，不管顺序（即不管是先同步引入再异步引入，还是先异步引入在同步引入），
      * 这个模块会打包进bundle.js，而不会单独抽离出来。
      */
-    chunkFilename: 'js/[name]-[hash:6]-bundle-chunk.js',
+    chunkFilename: 'js/[name]-[contenthash:6]-bundle-chunk.js',
     path: path.resolve(__dirname, '../dist'),
-    assetModuleFilename: 'assets/[name]-[hash:6].[ext]', // 静态资源生成目录（不管什么资源默认都统一生成到这里,除非单独设置了generator）
+    assetModuleFilename: 'assets/[name]-[contenthash:6].[ext]', // 静态资源生成目录（不管什么资源默认都统一生成到这里,除非单独设置了generator）
     /**
      * output的publicPath建议(或者绝大部分情况下必须)与devServer的publicPath一致。
      * 不管开发模式还是生产模式，output.publicPath都会生效，如果不设置publicPath，
@@ -78,6 +79,7 @@ const commonConfig = (isProduction) => ({
     modules: ['node_modules'],
   },
   cache: {
+    // type: 'memory', // filesystem长缓存，如果是memory缓存的话，下次启动就没了
     type: 'filesystem', // filesystem长缓存，如果是memory缓存的话，下次启动就没了
     buildDependencies: {
       // https://webpack.js.org/configuration/cache/#cacheallowcollectingmemory
@@ -155,7 +157,7 @@ const commonConfig = (isProduction) => ({
               importLoaders: 2,
               modules: {
                 mode: 'local',
-                localIdentName: '[local]__[hash:base64:5]',
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
               },
             },
           },
@@ -168,7 +170,7 @@ const commonConfig = (isProduction) => ({
         test: /\.(jpg|jpeg|png|gif)$/,
         type: 'asset',
         generator: {
-          filename: 'img/[name]-[hash:6][ext]',
+          filename: 'img/[name]-[contenthash:6][ext]',
         },
         parser: {
           dataUrlCondition: {
@@ -181,7 +183,7 @@ const commonConfig = (isProduction) => ({
         test: /\.(svg|eot|ttf|woff2?)$/,
         type: 'asset/resource',
         generator: {
-          filename: 'font/[name]-[hash:6][ext]',
+          filename: 'font/[name]-[contenthash:6][ext]',
         },
       },
     ],
@@ -195,7 +197,7 @@ const commonConfig = (isProduction) => ({
          * Options similar to the same options in webpackOptions.output
          * all options are optional
          */
-        filename: 'css/[name]-[hash:6].css',
+        filename: 'css/[name]-[contenthash:6].css',
         chunkFilename: 'css/[id].css',
         ignoreOrder: false, // Enable to remove warnings about conflicting order
       }),
@@ -271,9 +273,10 @@ const commonConfig = (isProduction) => ({
     }),
     new DefinePlugin({
       // 定义全局变量
-      BASE_URL: "'./'", // public下的index.html里面的icon的路径
+      BASE_URL: `${JSON.stringify(outputStaticUrl())}`, // public下的index.html里面的icon的路径
+      // BASE_URL: `'./'`, // public下的index.html里面的icon的路径
       'process.env': {
-        // 值必须是字符串，否则会报错！
+        // process.env里面的键值对，值必须是字符串，否则会报错！
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
         PUBLIC_PATH: JSON.stringify(outputStaticUrl()),
         REACT_APP_RELEASE_PUBLICPATH: JSON.stringify(
@@ -287,7 +290,7 @@ const commonConfig = (isProduction) => ({
   ].filter(Boolean),
 });
 
-module.exports = function (env) {
+export default (env) => {
   return new Promise((resolve) => {
     const isProduction = env.production;
     /**
@@ -305,7 +308,7 @@ module.exports = function (env) {
     const configPromise = Promise.resolve(
       isProduction ? prodConfig : devConfig
     );
-    configPromise.then((config) => {
+    configPromise.then((config: any) => {
       // 根据当前环境，合并配置文件
       const mergeConfig = merge(commonConfig(isProduction), config);
       console.log(chalkSUCCESS(`当前是: ${process.env.NODE_ENV}环境`));

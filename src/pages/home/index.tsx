@@ -1,12 +1,14 @@
 import { memo, useEffect, useState } from 'react';
 // import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '@/stores/hooks';
-import { addNum, delNum, ajaxGetUserInfo } from '@/stores/counter';
+
 // import { RootState } from '@/store';
 
 import AuthorJPG from '../../assets/img/author.jpg';
 import style from './index.scss';
+
+import { addNum, delNum, ajaxGetUserInfo } from '@/stores/counter';
+import { useAppSelector, useAppDispatch } from '@/stores/hooks';
 
 const Home = () => {
   // const counter = useSelector((state: RootState) => {

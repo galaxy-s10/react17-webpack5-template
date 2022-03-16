@@ -1,7 +1,8 @@
-const chalk = require('chalk');
-const nodeEmoji = require('node-emoji');
+import nodeChalk from 'chalk';
+import nodeEmoji from 'node-emoji';
 
 export const emoji = nodeEmoji;
+export const chalk = nodeChalk;
 export const chalkINFO = (v) =>
   `${chalk.bgBlueBright.black(' INFO ')} ${chalk.blueBright(v)}`;
 export const chalkSUCCESS = (v) =>

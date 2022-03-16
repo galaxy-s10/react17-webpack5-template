@@ -8,43 +8,29 @@ console.log(
 
 module.exports = {
   settings: {
-    // 'import/resolver': {
-    //   node: {
-    //     extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    //   },
-    // },
-    // 'import/parsers': {
-    //   '@typescript-eslint/parser': ['.ts', '.tsx'],
-    // },
     react: {
       // 不设置的话，yarn lint会提示:https://github.com/yannickcr/eslint-plugin-react#configuration
-      createClass: 'createReactClass', // Regex for Component Factory to use,
-      // default to "createReactClass"
-      pragma: 'React', // Pragma to use, default to "React"
-      fragment: 'Fragment', // Fragment to use (may be a property of <pragma>), default to "Fragment"
       version: 'detect', // React version. "detect" automatically picks the version you have installed.
-      // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
-      // It will default to "latest" and warn if missing, and to "detect" in the future
-      flowVersion: '0.53', // Flow version
     },
   },
   env: {
     browser: true,
+    node: true,
   },
   parser: '@typescript-eslint/parser',
   extends: [
-    // 'airbnb-base', // airbnb的eslint规范，indent：2，即一个缩进两个空格，qutoes：single，即单引号，max-len：一行100
     // 'eslint:recommended',
     // 'plugin:react/recommended',
     // 'plugin:import/typescript', // 解析通过相对路径引入的tsx
     // 'prettier', // ℹ️ Note: You might find guides on the Internet saying you should also extend stuff like "prettier/react". Since version 8.0.0 of eslint-config-prettier, all you need to extend is "prettier"! That includes all plugins.
+    'plugin:import/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
   },
-  plugins: [],
+  plugins: ['import'],
   /**
    * overrides可共享配置中的配置不再覆盖.eslintrc文件中的用户设置
    * 在 ESLint v6.0.0 中，父配置始终优先于扩展配置，即使是overrides块。
@@ -54,7 +40,7 @@ module.exports = {
    */
   overrides: [
     {
-      files: ['*.ts', '*tsx'],
+      files: ['*.ts', '*.tsx'],
       parser: '@typescript-eslint/parser',
       /**
        * babel-eslint插件能动态import。默认的eslint解析器不能理解第三阶段的建议。https://github.com/import-js/eslint-plugin-import/issues/890
@@ -63,15 +49,35 @@ module.exports = {
        * parser: '@babel/eslint-parser',
        */
       extends: [
-        'airbnb-base', //爱彼迎的规范比较严，但是有个很喜欢的地方，会对引入的包排序。
         'eslint:recommended',
+        'plugin:import/recommended',
         'plugin:react/recommended',
         'plugin:import/typescript', // 解析通过相对路径引入的tsx
         'prettier',
       ],
       parserOptions: {},
-      plugins: [],
+      plugins: ['import'],
       rules: {
+        'import/order': [
+          'error',
+          {
+            groups: [
+              'builtin',
+              'external',
+              'internal',
+              ['sibling', 'parent'],
+              'index',
+              'object',
+              'type',
+            ],
+            'newlines-between': 'always', //强制或禁止导入组之间的新行：
+            //根据导入路径按字母顺序对每个组内的顺序进行排序
+            alphabetize: {
+              order: 'asc' /* 按升序排序。选项：['ignore', 'asc', 'desc'] */,
+              caseInsensitive: true /* 忽略大小写。选项：[true, false] */,
+            },
+          },
+        ],
         'import/prefer-default-export': 0, // 当模块只有一个导出时，更喜欢使用默认导出而不是命名导出。
         'import/extensions': 0, // 确保在导入路径中一致使用文件扩展名，即所有的导入都要加文件的扩展名。
         'react/react-in-jsx-scope': 0, // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md
@@ -90,6 +96,26 @@ module.exports = {
      * 1 => warn
      * 2 => error
      */
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          ['sibling', 'parent'],
+          'index',
+          'object',
+          'type',
+        ],
+        'newlines-between': 'always', //强制或禁止导入组之间的新行：
+        //根据导入路径按字母顺序对每个组内的顺序进行排序
+        alphabetize: {
+          order: 'asc' /* 按升序排序。选项：['ignore', 'asc', 'desc'] */,
+          caseInsensitive: true /* 忽略大小写。选项：[true, false] */,
+        },
+      },
+    ],
     // 'class-methods-use-this': 0, // 类方法如果不使用this的话会报错
     // 'react/prop-types': 0,
     // 'no-restricted-syntax': [

@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import couterSlice, { reducer } from './counter';
 
 // 导出全局状态

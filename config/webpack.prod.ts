@@ -13,7 +13,7 @@ console.log(
   emoji.get('white_check_mark')
 );
 
-module.exports = {
+export default {
   mode: 'production',
   devtool: false,
   externals: {

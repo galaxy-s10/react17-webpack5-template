@@ -1,7 +1,8 @@
 import path from 'path';
+
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import portfinder from 'portfinder';
 import webpack from 'webpack';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 import { chalkINFO, emoji } from './utils/chalkTip';
 import { outputStaticUrl } from './utils/outputStaticUrl';
@@ -11,7 +12,7 @@ console.log(
   emoji.get('white_check_mark')
 );
 
-module.exports = new Promise((resolve) => {
+export default new Promise((resolve) => {
   // 默认端口8000，如果被占用了，会自动递增+1
   const defaultPort = 8000;
   portfinder
