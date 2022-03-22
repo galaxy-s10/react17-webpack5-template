@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 // import { RootState } from '@/store';
 
-import AuthorJPG from '../../assets/img/author.jpg';
 import style from './index.scss';
 
+import AuthorJPG from '@/assets/img/author.jpg';
 import { addNum, delNum, ajaxGetUserInfo } from '@/stores/counter';
 import { useAppSelector, useAppDispatch } from '@/stores/hooks';
 
@@ -19,9 +19,11 @@ const Home = () => {
   const counter = useAppSelector((state) => state.counter);
 
   const dispatch = useAppDispatch();
-  // 生命周期
+
+  const [title, setTitle] = useState('Home页面Title');
+
   useEffect(() => {
-    console.log('生命周期', counter);
+    console.log('Home生命周期', counter);
   }, []);
 
   useEffect(() => {
@@ -30,15 +32,10 @@ const Home = () => {
 
   return (
     <div>
-      <div>
-        <Link to="/login">login</Link>
-      </div>
-      <div className={style.myfont}>Home页面</div>
+      <Link to="/login">点击跳转login</Link>
+      <div className={style.myfont}>{title}</div>
       <img src={AuthorJPG} style={{ width: '100px' }} alt="" />
-
-      <div>
-        <div>redux状态：{JSON.stringify(counter)}</div>
-      </div>
+      <div>redux状态：{JSON.stringify(counter)}</div>
       <button onClick={() => dispatch(addNum(1))}>加一</button>
       <button onClick={() => dispatch(delNum(2))}>减二</button>
     </div>

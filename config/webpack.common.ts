@@ -13,7 +13,7 @@ import { merge } from 'webpack-merge';
 import WebpackBar from 'webpackbar';
 
 import { chalkINFO, chalkSUCCESS, emoji } from './utils/chalkTip';
-import { APP_ENV, APP_NAME, outputStaticUrl } from './utils/outputStaticUrl';
+import { outputStaticUrl } from './utils/outputStaticUrl';
 import devConfig from './webpack.dev';
 import prodConfig from './webpack.prod';
 
@@ -21,7 +21,6 @@ console.log(
   chalkINFO(`读取: ${__filename.slice(__dirname.length + 1)}`),
   emoji.get('white_check_mark')
 );
-console.log(JSON.stringify(outputStaticUrl()));
 
 const commonConfig = (isProduction) => ({
   entry: {
@@ -132,7 +131,7 @@ const commonConfig = (isProduction) => ({
               importLoaders: 1, // 在css文件里面@import了其他资源，就回到上一个loader，在上一个loader那里重新解析@import里的资源
               modules: {
                 mode: 'local',
-                localIdentName: '[local]__[hash:base64:5]', // https://webpack.js.org/loaders/css-loader/#localidentname
+                localIdentName: '[path][name]__[local]--[hash:base64:5]', // https://webpack.js.org/loaders/css-loader/#localidentname
               }, // css模块化
             },
           },
@@ -272,18 +271,22 @@ const commonConfig = (isProduction) => ({
       ],
     }),
     new DefinePlugin({
-      // 定义全局变量
+      /**
+       * https://webpack.docschina.org/plugins/define-plugin/
+       * DefinePlugin 允许在 编译时 将你代码中的变量替换为其他值或表达式
+       * 这个DefinePlugin的作用就是定义全局变量，但它不是添加到window里（window里面找是找不到），
+       * 而是这些值将内联到代码中，可以f12打开控制台在网络里面看请求的js文件（或用到了变量的文件），可以看到其实直接是把值写在了文件里了。
+       * 请注意，由于本插件会直接替换文本，因此提供的值必须在字符串本身中再包含一个 实际的引号 。
+       * 通常，可以使用类似 '"production"' 这样的替换引号，或者直接用 JSON.stringify('production')。
+       */
       BASE_URL: `${JSON.stringify(outputStaticUrl())}`, // public下的index.html里面的icon的路径
-      // BASE_URL: `'./'`, // public下的index.html里面的icon的路径
       'process.env': {
-        // process.env里面的键值对，值必须是字符串，否则会报错！
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-        PUBLIC_PATH: JSON.stringify(outputStaticUrl()),
-        REACT_APP_RELEASE_PUBLICPATH: JSON.stringify(
-          APP_NAME === undefined ? '/' : APP_NAME
+        REACT_APP_RELEASE_PROJECT_NAME: JSON.stringify(
+          process.env.REACT_APP_RELEASE_PROJECT_NAME
         ),
-        REACT_APP_RELEASE_ENV: JSON.stringify(
-          APP_ENV === undefined ? '/' : APP_ENV
+        REACT_APP_RELEASE_PROJECT_ENV: JSON.stringify(
+          process.env.REACT_APP_RELEASE_PROJECT_ENV
         ),
       },
     }),
@@ -292,7 +295,8 @@ const commonConfig = (isProduction) => ({
 
 export default (env) => {
   return new Promise((resolve) => {
-    const isProduction = env.production;
+    // 在npm script语句里面有 --env development，这里就可以拿得到它
+    const isProduction: boolean = env.production;
     /**
      * 注意：在node环境下，给process.env这个对象添加的所有属性，都会默认转成字符串,
      * 如果给process.env.NODE_ENV = undefined，赋值的时候node会将undefined转成"undefined"再赋值

@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import couterSlice, { reducer } from './counter';
+import { reducer } from './counter';
 
-// 导出全局状态
+// 导出全局状态https://redux-toolkit.js.org/api/configureStore
 export const store = configureStore({
   reducer: {
     counter: reducer,

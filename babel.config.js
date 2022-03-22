@@ -29,7 +29,7 @@ module.exports = {
      * Support for the experimental syntax 'flow' isn't currently enabled (11:8):
      * Add @babel/preset-flow (https://git.io/JfeDn) to the 'presets' section of your Babel config to enable transformation.
      * If you want to leave it as-is, add @babel/plugin-syntax-flow (https://git.io/vb4yb) to the 'plugins' section to enable parsing.
-     * 因此盲猜需要添加@babel/preset-flow和@babel/preset-typescript。
+     * 因此需要添加@babel/preset-flow或@babel/preset-typescript。
      */
     '@babel/preset-typescript',
   ],

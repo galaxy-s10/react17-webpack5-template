@@ -1,8 +1,9 @@
-import { memo, useState, useEffect } from 'react';
+import { memo, useEffect } from 'react';
 
-const Loading = () => (
-  // 生命周期
-
-  <div>Loading...</div>
-);
+const Loading = () => {
+  useEffect(() => {
+    console.log('Loading生命周期');
+  }, []);
+  return <div>Loading...</div>;
+};
 export default memo(Loading);

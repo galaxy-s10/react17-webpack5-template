@@ -14,9 +14,9 @@
     "push": "cz && standard-version",
     "release": "standard-version",
     "start": "cross-env webpack serve --config ./config/webpack.common.ts --env development",
-    "start:beta": "cross-env REACT_APP_RELEASE_ENV=beta REACT_APP_RELEASE_PUBLICPATH=react-webpack-template webpack serve --config ./config/webpack.common.ts --env development",
-    "start:preview": "cross-env REACT_APP_RELEASE_ENV=preview REACT_APP_RELEASE_PUBLICPATH=react-webpack-template webpack serve --config ./config/webpack.common.ts --env development",
-    "start:prod": "cross-env REACT_APP_RELEASE_ENV=prod REACT_APP_RELEASE_PUBLICPATH=react-webpack-template webpack serve --config ./config/webpack.common.ts --env production",
+    "start:beta": "cross-env REACT_APP_RELEASE_PROJECT_ENV=beta REACT_APP_RELEASE_PROJECT_NAME=react-webpack-template webpack serve --config ./config/webpack.common.ts --env development",
+    "start:preview": "cross-env REACT_APP_RELEASE_PROJECT_ENV=preview REACT_APP_RELEASE_PROJECT_NAME=react-webpack-template webpack serve --config ./config/webpack.common.ts --env development",
+    "start:prod": "cross-env REACT_APP_RELEASE_PROJECT_ENV=prod REACT_APP_RELEASE_PROJECT_NAME=react-webpack-template webpack serve --config ./config/webpack.common.ts --env production",
     "start:stats": "cross-env WEBPACK_ANALYZER_SWITCH=true webpack serve --config ./config/webpack.common.ts --env development"
   },
   "config": {
@@ -52,7 +52,7 @@
     "copy-webpack-plugin": "^8.1.0",
     "core-js": "^3.17.2",
     "cross-env": "^7.0.3",
-    "css-loader": "^5.2.0",
+    "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^3.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",

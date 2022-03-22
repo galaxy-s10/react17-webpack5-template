@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { outputStaticUrl } from '../config/utils/outputStaticUrl';
-import style from './style/index.scss';
 
 import Loading from '@/components/Loading';
 import Home from '@/pages/home';
@@ -12,8 +11,9 @@ import { store } from '@/stores';
 
 const Login = React.lazy(() => import('@/pages/login'));
 const App = () => {
-  // 生命周期
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log('App生命周期');
+  }, []);
 
   return (
     <Provider store={store}>
@@ -31,7 +31,6 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-      <div className={style.aaa}>测试autoprefix</div>
     </Provider>
   );
 };

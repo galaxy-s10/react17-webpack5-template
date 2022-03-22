@@ -19,11 +19,11 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   extends: [
-    // 'eslint:recommended',
-    // 'plugin:react/recommended',
-    // 'plugin:import/typescript', // 解析通过相对路径引入的tsx
-    // 'prettier', // ℹ️ Note: You might find guides on the Internet saying you should also extend stuff like "prettier/react". Since version 8.0.0 of eslint-config-prettier, all you need to extend is "prettier"! That includes all plugins.
+    'eslint:recommended',
     'plugin:import/recommended',
+    'plugin:react/recommended',
+    'plugin:import/typescript', // 解析通过相对路径引入的tsx
+    'prettier',
   ],
   parserOptions: {
     ecmaFeatures: {
