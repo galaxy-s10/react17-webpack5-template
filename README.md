@@ -1,12 +1,17 @@
 # 简介
 
-基于 React + Typescript + Webpack5 搭建的 react 项目模板，并主要使用了以下插件：
+> 主要实现了create-react-app的大部分功能
 
-- react@17.x
-- react-router-dom@6.x
-- redux@4.x
+- [x] 基于 react17 + webpack5
+- [x] 路由管理：react-router-dom6.x
+- [x] 状态管理：redux4.x + react-redux7.x + @reduxjs/toolkit
+- [x] 代码规范：eslint + prettier + eslint-plugin-react
 
-# 运行
+- [x] 支持热更新
+- [x] 支持Typescript
+- [x] 支持路由懒加载
+
+# 本地运行
 
 安装依赖：
 
@@ -20,9 +25,9 @@ yarn install
 yarn start
 ```
 
-# 部署
+# 构建部署
 
-> 以下依赖为 cdn 加载：
+> 以下依赖使用了cdn加载
 
 - @reduxjs/toolkit
 - react
@@ -37,6 +42,10 @@ yarn build
 
 # package.json
 
+# 注意
+
+当前运行的 node 版本：v14.17.0
+
 1. 写 jsx/tsx 的时候，如果需要 style、className 等智能提示，则需要安装：@types/react
 2. lint-staged，执行一些操作，如：prettier、eslint
 3. husky，git 钩子
@@ -45,7 +54,3 @@ yarn build
 4. commitizen，执行 git cz 的时候可规范进行提交 commit
 5. @commitlint/cli，@commitlint/config-conventional，对 git commit 的提交信息进行约束
 6. standard-version，更新 changeLog.md 以及 package.json 的 version。
-
-# 注意
-
-当前运行的 node 版本：v14.17.0

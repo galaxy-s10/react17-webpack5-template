@@ -1,7 +1,7 @@
 {
-  "name": "react-webpack-template",
+  "name": "react17-webpack5-template",
   "version": "0.0.2",
-  "repository": "https://github.com/galaxy-s10/react-webpack-template.git",
+  "repository": "https://github.com/galaxy-s10/react17-webpack5-template.git",
   "license": "MIT",
   "author": "shuisheng <2274751790@qq.com>",
   "scripts": {
@@ -14,9 +14,9 @@
     "push": "cz && standard-version",
     "release": "standard-version",
     "start": "cross-env webpack serve --config ./config/webpack.common.ts --env development",
-    "start:beta": "cross-env REACT_APP_RELEASE_PROJECT_ENV=beta REACT_APP_RELEASE_PROJECT_NAME=react-webpack-template webpack serve --config ./config/webpack.common.ts --env development",
-    "start:preview": "cross-env REACT_APP_RELEASE_PROJECT_ENV=preview REACT_APP_RELEASE_PROJECT_NAME=react-webpack-template webpack serve --config ./config/webpack.common.ts --env development",
-    "start:prod": "cross-env REACT_APP_RELEASE_PROJECT_ENV=prod REACT_APP_RELEASE_PROJECT_NAME=react-webpack-template webpack serve --config ./config/webpack.common.ts --env production",
+    "start:beta": "cross-env REACT_APP_RELEASE_PROJECT_ENV=beta REACT_APP_RELEASE_PROJECT_NAME=react17-webpack5-template webpack serve --config ./config/webpack.common.ts --env development",
+    "start:preview": "cross-env REACT_APP_RELEASE_PROJECT_ENV=preview REACT_APP_RELEASE_PROJECT_NAME=react17-webpack5-template webpack serve --config ./config/webpack.common.ts --env development",
+    "start:prod": "cross-env REACT_APP_RELEASE_PROJECT_ENV=prod REACT_APP_RELEASE_PROJECT_NAME=react17-webpack5-template webpack serve --config ./config/webpack.common.ts --env production",
     "start:stats": "cross-env WEBPACK_ANALYZER_SWITCH=true webpack serve --config ./config/webpack.common.ts --env development"
   },
   "config": {
