@@ -10,6 +10,9 @@ import NotFound from '@/pages/notFound';
 import { store } from '@/stores';
 
 const Login = React.lazy(() => import('@/pages/login'));
+// const Home = React.lazy(() => import('@/pages/home'));
+const About = React.lazy(() => import('@/pages/about'));
+
 const App = () => {
   useEffect(() => {
     console.log('App生命周期');
@@ -25,6 +28,22 @@ const App = () => {
             element={
               <React.Suspense fallback={<Loading />}>
                 <Login />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <Home />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <About />
               </React.Suspense>
             }
           />

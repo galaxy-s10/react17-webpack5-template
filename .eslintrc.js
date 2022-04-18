@@ -7,6 +7,7 @@ console.log(
 );
 
 module.exports = {
+  root: true,
   settings: {
     react: {
       // 不设置的话，yarn lint会提示:https://github.com/yannickcr/eslint-plugin-react#configuration

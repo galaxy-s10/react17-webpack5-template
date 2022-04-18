@@ -1,10 +1,10 @@
-import { memo, useEffect, useState } from 'react';
 // import { useSelector } from 'react-redux';
+import React, { memo, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-// import { RootState } from '@/store';
-
 import style from './index.scss';
+
+// import { RootState } from '@/store';
 
 import AuthorJPG from '@/assets/img/author.jpg';
 import { addNum, delNum, ajaxGetUserInfo } from '@/stores/counter';
@@ -30,11 +30,24 @@ const Home = () => {
     dispatch(ajaxGetUserInfo());
   }, [dispatch]);
 
+  const customStyle: React.CSSProperties = {
+    width: '100px',
+    textAlign: 'center',
+  };
+
   return (
     <div>
-      <Link to="/login">点击跳转login</Link>
+      <div>
+        <Link to="/">点击跳转首页</Link>
+      </div>
+      <div>
+        <Link to="/login">点击跳转login</Link>
+      </div>
+      <div>
+        <Link to="/about">点击跳转about</Link>
+      </div>
       <div className={style.myfont}>{title}</div>
-      <img src={AuthorJPG} style={{ width: '100px' }} alt="" />
+      <img src={AuthorJPG} style={customStyle} alt="" />
       <div>redux状态：{JSON.stringify(counter)}</div>
       <button onClick={() => dispatch(addNum(1))}>加一</button>
       <button onClick={() => dispatch(delNum(2))}>减二</button>
