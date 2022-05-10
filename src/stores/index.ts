@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { reducer } from './counter';
+import { reducer as counterReducer } from './counter';
+import { reducer as userReducer } from './user';
 
 // 导出全局状态https://redux-toolkit.js.org/api/configureStore
 export const store = configureStore({
   reducer: {
-    counter: reducer,
+    counter: counterReducer,
+    user: userReducer,
   },
 });
 

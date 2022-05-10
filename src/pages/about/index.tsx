@@ -1,15 +1,16 @@
 import { memo, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+
+import style from './index.scss';
 
 const Home = () => {
   useEffect(() => {
-    console.log('About生命周期');
+    console.log('About页面生命周期mounted');
   }, []);
 
   return (
-    <div>
-      <h1>当前是about</h1>
-      <Link to="/">点击跳转首页</Link>
+    <div className={style.about}>
+      <h1>about页面</h1>
+      <p>关于我！</p>
     </div>
   );
 };

@@ -1,26 +1,45 @@
 import React, { memo, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 import { outputStaticUrl } from '../config/utils/outputStaticUrl';
+import style from './index.scss';
 
+import authorJpg from '@/assets/img/author.jpg';
 import Loading from '@/components/Loading';
 import Home from '@/pages/home';
 import NotFound from '@/pages/notFound';
 import { store } from '@/stores';
+import '@/assets/css/index.scss';
 
 const Login = React.lazy(() => import('@/pages/login'));
-// const Home = React.lazy(() => import('@/pages/home'));
 const About = React.lazy(() => import('@/pages/about'));
 
 const App = () => {
   useEffect(() => {
-    console.log('App生命周期');
+    console.log('App页面生命周期mounted');
   }, []);
+
+  const customStyle: React.CSSProperties = {
+    display: 'block',
+    width: '100px',
+    textAlign: 'center',
+  };
 
   return (
     <Provider store={store}>
+      <img src={authorJpg} style={customStyle} alt="" />
+      <div className={style.myfont}>MIUI 13 采用全新系统字体 MiSans</div>
       <BrowserRouter basename={outputStaticUrl()}>
+        <div>
+          <Link to="/">点击跳转首页</Link>
+        </div>
+        <div>
+          <Link to="/login">点击跳转login</Link>
+        </div>
+        <div>
+          <Link to="/about">点击跳转about</Link>
+        </div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route

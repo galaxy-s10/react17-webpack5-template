@@ -1,15 +1,15 @@
 import { memo, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
+import style from './index.scss';
 const Home = () => {
   useEffect(() => {
-    console.log('Login生命周期');
+    console.log('Login页面生命周期mounted');
   }, []);
 
   return (
-    <div>
-      <h1>当前是login</h1>
-      <Link to="/">点击跳转首页</Link>
+    <div className={style.login}>
+      <h1>login页面</h1>
+      <p>欢迎登录！</p>
     </div>
   );
 };
