@@ -1,3 +1,4 @@
+import PreloadPlugin from '@vue/preload-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin'; // 注入script或link
@@ -189,16 +190,16 @@ export default {
       minRatio: 0.8, // 只有压缩比这个比率更好的资产才会被处理(minRatio =压缩大小/原始大小),即压缩如果达不到0.8就不会进行压缩
       algorithm: 'gzip', // 压缩算法
     }),
-    // new PreloadWebpackPlugin({
-    //   // 预加载
-    //   rel: 'preload',
-    //   include: 'initial',
-    //   fileBlacklist: [/\.map$/, /hot-update\.js$/],
-    // }),
-    // new PreloadWebpackPlugin({
-    //   // 预获取
-    //   rel: 'prefetch',
-    //   include: 'asyncChunks',
-    // }),
+    // 预加载
+    new PreloadPlugin({
+      rel: 'preload',
+      include: 'initial',
+      fileBlacklist: [/\.map$/, /hot-update\.js$/],
+    }),
+    // 预获取
+    new PreloadPlugin({
+      rel: 'prefetch',
+      include: 'asyncChunks',
+    }),
   ],
 };

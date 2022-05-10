@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <div className={style.about}>
       <h1>about页面</h1>
-      <p>关于我！</p>
+      <p className={style.myfont}>MIUI 13 采用全新系统字体 MiSans</p>
     </div>
   );
 };

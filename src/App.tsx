@@ -2,8 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
-import { outputStaticUrl } from '../config/utils/outputStaticUrl';
-import style from './index.scss';
+import { outputStaticUrl, NODE_ENV } from '../config/utils/outputStaticUrl';
 
 import authorJpg from '@/assets/img/author.jpg';
 import Loading from '@/components/Loading';
@@ -21,16 +20,16 @@ const App = () => {
   }, []);
 
   const customStyle: React.CSSProperties = {
-    display: 'block',
     width: '100px',
-    textAlign: 'center',
+    height: '100px',
   };
 
   return (
     <Provider store={store}>
-      <img src={authorJpg} style={customStyle} alt="" />
-      <div className={style.myfont}>MIUI 13 采用全新系统字体 MiSans</div>
-      <BrowserRouter basename={outputStaticUrl()}>
+      <div style={customStyle}>
+        <img src={authorJpg} width="100" alt="" />
+      </div>
+      <BrowserRouter basename={outputStaticUrl(NODE_ENV === 'production')}>
         <div>
           <Link to="/">点击跳转首页</Link>
         </div>
