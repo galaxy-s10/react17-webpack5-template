@@ -7,7 +7,7 @@ export const outputStaticUrl = (isProduction: boolean) => {
   console.table(process.env);
 
   if (isProduction) {
-    // 生产环境是一定有APP_NAME的，APP_ENV可能是'null'字符串
+    // 如果是jenkins里面构建，会执行build.sh，一定会有APP_NAME，APP_ENV可能是：'null'|'beta'|'preview'|'prod'
     if (APP_ENV === 'null') {
       return `/${APP_NAME}/`;
     } else {
