@@ -21,7 +21,11 @@ module.exports = {
         corejs: 3,
       },
     ],
-    '@babel/preset-react',
+    [
+      '@babel/preset-react',
+      // https://stackoverflow.com/questions/32070303/uncaught-referenceerror-react-is-not-defined
+      { runtime: 'automatic' },
+    ],
     /**
      * webpack编译ts的方案，1，ts-loader；2，babel，现在用的是第二种方案，因此需要添加@babel/preset-typescrip。
      * 而且react_app源码在解析tsx的时候有这句注释： The preset includes JSX, Flow, TypeScript, and some ESnext features，

@@ -1,19 +1,19 @@
-import { version as rtkVersion } from '@reduxjs/toolkit/package.json';
+// import { version as rtkVersion } from '@reduxjs/toolkit/package.json';
 import PreloadPlugin from '@vue/preload-webpack-plugin';
 // axios1.x的package.json使用了type:module，但是webpack.prod.ts是通过ts-node启动的，
 // ts-node的compilerOptions.module设置了CommonJS，和type:module不兼容
-import axios from 'axios';
+// import axios from 'axios';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import { version as historyVersion } from 'history/package.json';
-import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin';
+// import { version as historyVersion } from 'history/package.json';
+// import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { version as reactDomVersion } from 'react-dom/package.json';
-import { version as reactReduxVersion } from 'react-redux/package.json';
-import { version as reactRouterDomVersion } from 'react-router-dom/package.json';
-import { version as reactRouterVersion } from 'react-router/package.json';
-import { version as reactVersion } from 'react/package.json';
-import { version as reduxVersion } from 'redux/package.json';
+// import { version as reactDomVersion } from 'react-dom/package.json';
+// import { version as reactReduxVersion } from 'react-redux/package.json';
+// import { version as reactRouterDomVersion } from 'react-router-dom/package.json';
+// import { version as reactRouterVersion } from 'react-router/package.json';
+// import { version as reactVersion } from 'react/package.json';
+// import { version as reduxVersion } from 'redux/package.json';
 import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration } from 'webpack';
 
@@ -24,12 +24,22 @@ export default new Promise((resolve) => {
   const prodConfig: Configuration = {
     mode: 'production',
     devtool: false,
-    externals: {
-      vue: 'Vue',
-      'vue-router': 'VueRouter',
-      pinia: 'Pinia',
-      axios: 'axios',
-    },
+    // 引入第三方cdn的话不太可靠，而且版本不好控制，比如package.json安装的react-router是^6，
+    // 就有可能安装所有react-router6的版本，但是react-router6.3.0的unpkg cdn入口是https://unpkg.com/browse/react-router@6.3.0/umd/react-router.production.min.js
+    // 而react-router6.4.0的unpkg cdn入口是https://unpkg.com/browse/react-router@6.4.0/dist/react-router.production.min.js
+    // 我们并不能很好的控制这个版本，除非package.json写死安装的版本？
+    // externals: {
+    //   // 左边是import的包名，右边是全局变量
+    //   react: 'React', // cdn引入的https://unpkg.com/react@17/umd/react.production.min.js导出的全局变量叫: React，其实就是umd的名称。
+    //   'react-dom': 'ReactDOM', // cdn引入的https://unpkg.com/react-dom@17/umd/react-dom.production.min.js叫: ReactDOM
+    //   history: 'HistoryLibrary',
+    //   'react-router': 'ReactRouter',
+    //   'react-router-dom': 'ReactRouterDOM', // react-router-dom依赖react-router和history
+    //   redux: 'Redux',
+    //   'react-redux': 'ReactRedux',
+    //   '@reduxjs/toolkit': 'RTK',
+    //   axios: 'axios',
+    // },
     optimization: {
       /**
        * splitChunks属性，如果设置了mode: 'production'，会有默认行为，具体看官网
@@ -144,40 +154,40 @@ export default new Promise((resolve) => {
         algorithm: 'gzip', // 压缩算法
       }),
       // 注入script或link
-      new HtmlWebpackTagsPlugin({
-        append: false,
-        publicPath: '', // 默认会拼上output.publicPath，因为我们引入的是cdn的地址，因此不需要拼上output.publicPath，直接publicPath:''，这样就约等于拼上空字符串''
-        links: [],
-        scripts: [
-          {
-            path: `https://unpkg.com/axios@${axios.VERSION}/dist/axios.min.js`,
-          },
-          {
-            path: `https://unpkg.com/react@${reactVersion}/umd/react.production.min.js`,
-          },
-          {
-            path: `https://unpkg.com/react-dom@${reactDomVersion}/umd/react-dom.production.min.js`,
-          },
-          {
-            path: `https://unpkg.com/history@${historyVersion}/umd/history.production.min.js`,
-          },
-          {
-            path: `https://unpkg.com/react-router@${reactRouterVersion}/umd/react-router.production.min.js`,
-          },
-          {
-            path: `https://unpkg.com/react-router-dom@${reactRouterDomVersion}/umd/react-router-dom.production.min.js`,
-          },
-          {
-            path: `https://unpkg.com/redux@${reduxVersion}/dist/redux.min.js`,
-          },
-          {
-            path: `https://unpkg.com/react-redux@${reactReduxVersion}/dist/react-redux.min.js`,
-          },
-          {
-            path: `https://unpkg.com/@reduxjs/toolkit@${rtkVersion}/dist/redux-toolkit.umd.min.js`,
-          },
-        ],
-      }),
+      // new HtmlWebpackTagsPlugin({
+      //   append: false,
+      //   publicPath: '', // 默认会拼上output.publicPath，因为我们引入的是cdn的地址，因此不需要拼上output.publicPath，直接publicPath:''，这样就约等于拼上空字符串''
+      //   links: [],
+      //   scripts: [
+      //     {
+      //       path: `https://unpkg.com/axios@${axios.VERSION}/dist/axios.min.js`,
+      //     },
+      //     {
+      //       path: `https://unpkg.com/react@${reactVersion}/umd/react.production.min.js`,
+      //     },
+      //     {
+      //       path: `https://unpkg.com/react-dom@${reactDomVersion}/umd/react-dom.production.min.js`,
+      //     },
+      //     {
+      //       path: `https://unpkg.com/history@${historyVersion}/umd/history.production.min.js`,
+      //     },
+      //     {
+      //       path: `https://unpkg.com/react-router@${reactRouterVersion}/umd/react-router.production.min.js`,
+      //     },
+      //     {
+      //       path: `https://unpkg.com/react-router-dom@${reactRouterDomVersion}/umd/react-router-dom.production.min.js`,
+      //     },
+      //     {
+      //       path: `https://unpkg.com/redux@${reduxVersion}/dist/redux.min.js`,
+      //     },
+      //     {
+      //       path: `https://unpkg.com/react-redux@${reactReduxVersion}/dist/react-redux.min.js`,
+      //     },
+      //     {
+      //       path: `https://unpkg.com/@reduxjs/toolkit@${rtkVersion}/dist/redux-toolkit.umd.min.js`,
+      //     },
+      //   ],
+      // }),
       // 将 CSS 提取到单独的文件中
       new MiniCssExtractPlugin({
         /**
