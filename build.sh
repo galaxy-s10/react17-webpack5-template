@@ -6,7 +6,7 @@
 # Email: 2274751790@qq.com
 # FilePath: /react17-webpack5-template/build.sh
 # Github: https://github.com/galaxy-s10
-# LastEditTime: 2022-10-14 16:29:51
+# LastEditTime: 2022-10-14 16:50:09
 # LastEditors: shuisheng
 ###
 
@@ -62,4 +62,4 @@ else
   echo 开始构建$ENV环境:
 fi
 
-npx cross-env REACT_APP_RELEASE_PROJECT_NAME=$JOBNAME REACT_APP_RELEASE_PROJECT_ENV=$ENV webpack --config ./config/webpack.common.ts --env production
+npx cross-env REACT_APP_RELEASE_PROJECT_NAME=$JOBNAME REACT_APP_RELEASE_PROJECT_ENV=$ENV webpack --config ./script/config/webpack.common.ts --env production
