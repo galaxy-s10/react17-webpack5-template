@@ -1,6 +1,6 @@
 import { memo, useEffect } from 'react';
 
-import style from './index.scss';
+import style from './index.module.scss';
 
 import { addNum, delNum } from '@/stores/counter';
 import { useAppSelector, useAppDispatch } from '@/stores/hooks';

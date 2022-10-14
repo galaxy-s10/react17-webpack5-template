@@ -2,14 +2,13 @@ import React, { memo, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
-import { outputStaticUrl, NODE_ENV } from '../config/utils/outputStaticUrl';
+import { outputStaticUrl, NODE_ENV } from '../script/utils/outputStaticUrl';
 
 import authorJpg from '@/assets/img/author.jpg';
 import Loading from '@/components/Loading';
 import Home from '@/pages/home';
 import NotFound from '@/pages/notFound';
 import { store } from '@/stores';
-import '@/assets/css/index.scss';
 
 const Login = React.lazy(() => import('@/pages/login'));
 const About = React.lazy(() => import('@/pages/about'));
@@ -27,7 +26,10 @@ const App = () => {
   return (
     <Provider store={store}>
       <div style={customStyle}>
-        <img src={authorJpg} width="100" alt="" />
+        <img
+          src={authorJpg}
+          width="100"
+        />
       </div>
       <BrowserRouter basename={outputStaticUrl(NODE_ENV === 'production')}>
         <div>
@@ -40,7 +42,10 @@ const App = () => {
           <Link to="/about">点击跳转about</Link>
         </div>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home />}
+          />
           <Route
             path="/login"
             element={
@@ -65,7 +70,10 @@ const App = () => {
               </React.Suspense>
             }
           />
-          <Route path="*" element={<NotFound />} />
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
         </Routes>
       </BrowserRouter>
     </Provider>

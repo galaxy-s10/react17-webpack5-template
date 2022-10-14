@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 
-import style from './index.scss';
+import style from './index.module.scss';
 
 import CardCpt from '@/components/Card';
 import { addNum, delNum } from '@/stores/counter';
@@ -41,8 +41,22 @@ const Home = () => {
       <div>redux的user：{JSON.stringify(user)}</div>
       <button onClick={() => dispatch(addNum(1))}>加一</button>
       <button onClick={() => dispatch(delNum(2))}>减二</button>
-      <button onClick={() => ajaxHandle(1)}>模拟异步请求成功</button>
-      <button onClick={() => ajaxHandle(2)}>模拟异步请求失败</button>
+      <button
+        onClick={() => {
+          // eslint-disable-next-line
+          ajaxHandle(1);
+        }}
+      >
+        模拟异步请求成功
+      </button>
+      <button
+        onClick={() => {
+          // eslint-disable-next-line
+          ajaxHandle(2);
+        }}
+      >
+        模拟异步请求失败
+      </button>
       <CardCpt></CardCpt>
     </div>
   );

@@ -1,5 +1,5 @@
 /** 模拟ajax请求 */
-export const mockAjax = async (flag?: boolean) => {
+export const mockAjax = (flag?: boolean) => {
   return new Promise((resolve, rejected) => {
     setTimeout(() => {
       if (flag) {

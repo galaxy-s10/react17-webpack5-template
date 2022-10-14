@@ -14,7 +14,9 @@ const counterSlice = createSlice({
       state.num -= payload;
     },
   },
-  extraReducers() {},
+  extraReducers() {
+    console.log('extraReducers');
+  },
 });
 
 // 返回actions

@@ -8,19 +8,19 @@ console.log(
 
 module.exports = {
   presets: [
-    [
-      '@babel/preset-env',
-      {
-        /**
-         * useBuiltIns:
-         * false: 默认值就是false,不用任何的polyfill相关的代码
-         * usage: 代码中需要哪些polyfill, 就引用相关的api
-         * entry: 手动在入口文件中导入 core-js/regenerator-runtime, 根据目标浏览器引入所有对应的polyfill
-         */
-        useBuiltIns: 'usage',
-        corejs: 3,
-      },
-    ],
+    // [
+    //   '@babel/preset-env',
+    //   {
+    //     /**
+    //      * useBuiltIns:
+    //      * false: 默认值就是false,不用任何的polyfill相关的代码
+    //      * usage: 代码中需要哪些polyfill, 就引用相关的api
+    //      * entry: 手动在入口文件中导入 core-js/regenerator-runtime, 根据目标浏览器引入所有对应的polyfill
+    //      */
+    //     useBuiltIns: 'usage',
+    //     corejs: 3,
+    //   },
+    // ],
     '@babel/preset-react',
     /**
      * webpack编译ts的方案，1，ts-loader；2，babel，现在用的是第二种方案，因此需要添加@babel/preset-typescrip。
@@ -33,12 +33,5 @@ module.exports = {
      */
     '@babel/preset-typescript',
   ],
-  plugins: [
-    // [
-    //   '@babel/plugin-transform-runtime', // 和@babel/preset-env的useBuiltIns二选一。
-    //   {
-    //     corejs: 3,
-    //   },
-    // ],
-  ],
+  plugins: ['@babel/plugin-syntax-dynamic-import'],
 };
