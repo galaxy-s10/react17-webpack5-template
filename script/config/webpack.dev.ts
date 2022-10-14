@@ -44,7 +44,7 @@ export default new Promise((resolve) => {
           historyApiFallback: {
             rewrites: [
               /**
-               * 如果publicPath设置了/abc，就不能直接设置historyApiFallback: true，这样会重定向到vue3-blog-admin根目录下的index.html
+               * 如果publicPath设置了/abc，就不能直接设置historyApiFallback: true，这样会重定向到react17-webpack5-template根目录下的index.html
                * publicPath设置了/abc，就重定向到/abc，这样就可以了
                */
               {
@@ -55,14 +55,13 @@ export default new Promise((resolve) => {
           },
           /**
            * devServer.static提供静态文件服务器，默认是 'public' 文件夹。static: false禁用
-           * 即访问localhost:8080/a.js，其实访问的是localhost:8080/public/a.js
-           * 因为CopyWebpackPlugin插件会复制public的文件，所以static: false后再访问localhost:8080/a.js，其实还是能访问到public目录的a.js
+           * 即访问localhost:8080/a.js，其实访问的是public目录的a.js
            */
+          // WARN 因为CopyWebpackPlugin插件会复制public的文件，所以static: false后再访问localhost:8080/a.js，其实还是能访问到public目录的a.js
           static: {
             watch: true, // 告诉 dev-server 监听文件。默认启用，文件更改将触发整个页面重新加载。可以通过将 watch 设置为 false 禁用。
-            // publicPath: outputStaticUrl(false),
-            // directory: resolveApp('./public/'),
-            publicPath: resolveApp('./public/'),
+            publicPath: outputStaticUrl(false), // 让它和输入的静态目录对应
+            directory: resolveApp('./public/'),
           },
           proxy: {
             '/api': {
@@ -101,7 +100,7 @@ export default new Promise((resolve) => {
           new webpack.ProvidePlugin({
             React: 'react', // 如果报错：React is not defined，则自动加载react
           }), // 自动加载，而不必模块import或require,https://webpack.js.org/plugins/provide-plugin/
-          new ReactRefreshWebpackPlugin(),
+          new ReactRefreshWebpackPlugin({ overlay: false }),
           new ForkTsCheckerWebpackPlugin({
             /**
              * devServer如果设置为false，则不会向 Webpack Dev Server 报告错误。

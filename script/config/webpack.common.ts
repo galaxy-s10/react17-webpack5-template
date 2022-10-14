@@ -153,38 +153,22 @@ const commonConfig = (isProduction) => {
       // 用于解析webpack的loader
       modules: ['node_modules'],
     },
-    // cache: {
-    //   type: 'filesystem',
-    //   buildDependencies: {
-    //     // https://webpack.js.org/configuration/cache/#cacheallowcollectingmemory
-    //     // 建议cache.buildDependencies.config: [__filename]在您的 webpack 配置中设置以获取最新配置和所有依赖项。
-    //     config: [__filename],
-    //   },
-    // },
+    cache: {
+      type: 'filesystem',
+      buildDependencies: {
+        // https://webpack.js.org/configuration/cache/#cacheallowcollectingmemory
+        // 建议cache.buildDependencies.config: [__filename]在您的 webpack 配置中设置以获取最新配置和所有依赖项。
+        config: [__filename],
+      },
+    },
     module: {
       // loader执行顺序：从下往上，从右往左
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.(js|jsx|ts|tsx)$/,
           exclude: /node_modules/,
           use: [
             // 'thread-loader',
-            {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  !isProduction && require.resolve('react-refresh/babel'),
-                ].filter(Boolean),
-                cacheDirectory: true,
-                cacheCompression: false, // https://github.com/facebook/create-react-app/issues/6846
-              },
-            },
-          ],
-        },
-        {
-          test: /\.tsx?$/,
-          exclude: /node_modules/,
-          use: [
             {
               loader: 'babel-loader',
               options: {
@@ -317,7 +301,7 @@ const commonConfig = (isProduction) => {
       // 该插件将为您生成一个HTML5文件，其中包含使用脚本标签的所有Webpack捆绑包
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        title: '自然博客后台',
+        title: 'react17-webpack5-template',
         template: './public/index.html',
         hash: true,
         minify: isProduction
