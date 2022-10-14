@@ -1,5 +1,8 @@
 import { version as rtkVersion } from '@reduxjs/toolkit/package.json';
 import PreloadPlugin from '@vue/preload-webpack-plugin';
+// axios1.x的package.json使用了type:module，但是webpack.prod.ts是通过ts-node启动的，
+// ts-node的compilerOptions.module设置了CommonJS，和type:module不兼容
+import axios from 'axios';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import { version as historyVersion } from 'history/package.json';
@@ -15,11 +18,6 @@ import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration } from 'webpack';
 
 import { chalkINFO } from '../utils/chalkTip';
-
-// axios1.x的package.json使用了type:module，但是webpack.prod.ts是通过ts-node启动的，
-// ts-node的compilerOptions.module设置了CommonJS，和type:module不兼容
-// 因此这里使用commonjs规范引入axios
-const { version: axiosVersion } = require('axios/package.json');
 
 console.log(chalkINFO(`读取: ${__filename.slice(__dirname.length + 1)}`));
 export default new Promise((resolve) => {
@@ -152,47 +150,31 @@ export default new Promise((resolve) => {
         links: [],
         scripts: [
           {
-            path: `https://unpkg.com/axios@${
-              axiosVersion as string
-            }/dist/axios.min.js`,
+            path: `https://unpkg.com/axios@${axios.VERSION}/dist/axios.min.js`,
           },
           {
-            path: `https://unpkg.com/react@${
-              reactVersion as string
-            }/umd/react.production.min.js`,
+            path: `https://unpkg.com/react@${reactVersion}/umd/react.production.min.js`,
           },
           {
-            path: `https://unpkg.com/react-dom@${
-              reactDomVersion as string
-            }/umd/react-dom.production.min.js`,
+            path: `https://unpkg.com/react-dom@${reactDomVersion}/umd/react-dom.production.min.js`,
           },
           {
-            path: `https://unpkg.com/history@${
-              historyVersion as string
-            }/umd/history.production.min.js`,
+            path: `https://unpkg.com/history@${historyVersion}/umd/history.production.min.js`,
           },
           {
-            path: `https://unpkg.com/react-router@${
-              reactRouterVersion as string
-            }/umd/react-router.production.min.js`,
+            path: `https://unpkg.com/react-router@${reactRouterVersion}/umd/react-router.production.min.js`,
           },
           {
-            path: `https://unpkg.com/react-router-dom@${
-              reactRouterDomVersion as string
-            }/umd/react-router-dom.production.min.js`,
+            path: `https://unpkg.com/react-router-dom@${reactRouterDomVersion}/umd/react-router-dom.production.min.js`,
           },
           {
             path: `https://unpkg.com/redux@${reduxVersion}/dist/redux.min.js`,
           },
           {
-            path: `https://unpkg.com/react-redux@${
-              reactReduxVersion as string
-            }/dist/react-redux.min.js`,
+            path: `https://unpkg.com/react-redux@${reactReduxVersion}/dist/react-redux.min.js`,
           },
           {
-            path: `https://unpkg.com/@reduxjs/toolkit@${
-              rtkVersion as string
-            }/dist/redux-toolkit.umd.min.js`,
+            path: `https://unpkg.com/@reduxjs/toolkit@${rtkVersion}/dist/redux-toolkit.umd.min.js`,
           },
         ],
       }),
