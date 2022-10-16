@@ -8,15 +8,15 @@ const About = React.lazy(() => import('@/pages/about'));
 const routes = useRoutes([
   {
     path: '/',
-    element: () => <Home />,
+    element: <Home />,
   },
   {
     path: '/login',
-    element: () => <Login />,
+    element: <Login />,
   },
   {
     path: '/about',
-    element: () => <About />,
+    element: <About />,
   },
 ]);
 export default routes;

@@ -4,9 +4,9 @@
 # Date: 2022-05-10 11:51:50
 # Description:https://github.com/galaxy-s10/react17-webpack5-template
 # Email: 2274751790@qq.com
-# FilePath: /react17-webpack5-template/build.sh
+# FilePath: /github/react17-webpack5-template/build.sh
 # Github: https://github.com/galaxy-s10
-# LastEditTime: 2022-10-14 16:50:09
+# LastEditTime: 2022-10-16 08:45:07
 # LastEditors: shuisheng
 ###
 
@@ -63,3 +63,8 @@ else
 fi
 
 npx cross-env REACT_APP_RELEASE_PROJECT_NAME=$JOBNAME REACT_APP_RELEASE_PROJECT_ENV=$ENV webpack --config ./script/config/webpack.common.ts --env production
+
+echo 清除buff/cache:
+
+sync
+echo 3 >/proc/sys/vm/drop_caches
